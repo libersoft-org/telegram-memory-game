@@ -1,0 +1,7 @@
+{
+ "dependencies": {
+  "crypto": "*",
+  "elysia": "*",
+  "node-telegram-bot-api": "*"
+ }
+}

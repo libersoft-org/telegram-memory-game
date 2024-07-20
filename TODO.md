@@ -1,0 +1,4 @@
+- Design a card
+- Create a backend server that manages games
+- Create a frontend that interacts with backend
+- Create a "screenshot.webp" with an in-game image

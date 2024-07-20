@@ -1,0 +1,102 @@
+body {
+ font-family: Verdana, Geneva, Tahoma, sans-serif;
+ background-color: #EEE;
+ color: #333;
+}
+
+table {
+ width: 100%;
+ border: 1px solid #333;
+ border-radius: 10px;
+ border-spacing: 0px;
+ overflow: hidden;
+}
+
+table tr:nth-of-type(odd) {
+ background-color: #CCC;
+}
+
+table tr:nth-of-type(even) {
+ background-color: #DDD;
+}
+
+table tr:hover {
+ background-color: #AAA;
+}
+
+table tr td {
+ padding: 5px 10px;
+ vertical-align: top;
+}
+
+.bold {
+ font-weight: bold;
+}
+
+#cards {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+}
+
+#cards .row {
+ display: flex;
+ flex-direction: row;
+ gap: 10px;
+}
+
+.card {
+ background-color: transparent;
+ width: 80px;
+ height: 80px;
+ cursor: pointer;
+}
+
+.card .inner {
+ width: 100%;
+ height: 100%;
+ transition: transform 0.6s;
+ transform-style: preserve-3d;
+ border: 1px solid #000;
+ border-radius: 10px;
+ box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+ transform: rotateY(0deg);
+}
+
+.card .inner.flipped {
+ transform: rotateY(180deg);
+}
+
+.card .inner .front, .card .inner .back {
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ -webkit-backface-visibility: hidden;
+ backface-visibility: hidden;
+ border-radius: 10px;
+}
+
+.card .inner .back {
+ background-color: #BBB;
+ color: #000;
+}
+
+.card .inner .front {
+ background-color: #2980B9;
+ color: #FFF;
+ transform: rotateY(180deg);
+}
+
+.loader {
+ margin: 0 auto;
+ width: 50px;
+ height: 50px;
+ border-radius: 50%;
+ background: radial-gradient(farthest-side,#000 94%,#0000) top/8px 8px no-repeat, conic-gradient(#0000 30%,#000);
+ -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+ animation: loader 1s infinite linear;
+}
+
+@keyframes loader {
+ 100%{ transform: rotate(1turn) }
+}
