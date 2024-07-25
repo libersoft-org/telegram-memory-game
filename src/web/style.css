@@ -1,6 +1,6 @@
 body {
  font-family: Verdana, Geneva, Tahoma, sans-serif;
- background-color: #EEE;
+ background-color: #eee;
  color: #333;
 }
 
@@ -13,15 +13,15 @@ table {
 }
 
 table tr:nth-of-type(odd) {
- background-color: #CCC;
+ background-color: #ccc;
 }
 
 table tr:nth-of-type(even) {
- background-color: #DDD;
+ background-color: #ddd;
 }
 
 table tr:hover {
- background-color: #AAA;
+ background-color: #aaa;
 }
 
 table tr td {
@@ -59,7 +59,7 @@ table tr td {
  transform-style: preserve-3d;
  border: 1px solid #000;
  border-radius: 10px;
- box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
  transform: rotateY(0deg);
 }
 
@@ -67,7 +67,8 @@ table tr td {
  transform: rotateY(180deg);
 }
 
-.card .inner .front, .card .inner .back {
+.card .inner .front,
+.card .inner .back {
  position: absolute;
  width: 100%;
  height: 100%;
@@ -77,13 +78,13 @@ table tr td {
 }
 
 .card .inner .back {
- background-color: #BBB;
+ background-color: #bbb;
  color: #000;
 }
 
 .card .inner .front {
- background-color: #2980B9;
- color: #FFF;
+ background-color: #2980b9;
+ color: #fff;
  transform: rotateY(180deg);
 }
 
@@ -92,11 +93,15 @@ table tr td {
  width: 50px;
  height: 50px;
  border-radius: 50%;
- background: radial-gradient(farthest-side,#000 94%,#0000) top/8px 8px no-repeat, conic-gradient(#0000 30%,#000);
- -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+ background:
+  radial-gradient(farthest-side, #000 94%, #0000) top/8px 8px no-repeat,
+  conic-gradient(#0000 30%, #000);
+ -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
  animation: loader 1s infinite linear;
 }
 
 @keyframes loader {
- 100%{ transform: rotate(1turn) }
+ 100% {
+  transform: rotate(1turn);
+ }
 }

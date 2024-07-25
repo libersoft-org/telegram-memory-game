@@ -34,7 +34,7 @@ if ! [ -x "$(command -v prettier)" ]; then
  echo "Prettier not found, installing..."
  bun i -g prettier
 fi
-#prettier --write "src/**/*.{js,ts,css,html}"
+prettier --write "src/**/*.{js,ts,css,html}"
 git config user.name "$NAME"
 git config user.email "$EMAIL"
 git status

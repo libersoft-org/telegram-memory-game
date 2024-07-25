@@ -1,4 +1,4 @@
-const { Database:SQLiteDatabase } = require('bun:sqlite');
+const { Database: SQLiteDatabase } = require('bun:sqlite');
 const Common = require('./common.js').Common;
 
 class Database {
@@ -46,16 +46,16 @@ class Database {
  }
 
  async write(query, params = []) {
-   this.open();
-   let res = false;
-   try {
-    await this.db.run(query, ...params);
-    res = true;
-   } catch (ex) {
-    Common.addLog(ex, 2);
-   }
-   this.close();
-   return res;
+  this.open();
+  let res = false;
+  try {
+   await this.db.run(query, ...params);
+   res = true;
+  } catch (ex) {
+   Common.addLog(ex, 2);
+  }
+  this.close();
+  return res;
  }
 
  async tableExists(name) {

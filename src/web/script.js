@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  await auth(Telegram.WebApp.initData);
  await dealCards();
@@ -24,14 +24,14 @@ async function auth(data) {
      '{LAST_NAME}': result.data.user.last_name,
      '{LANGUAGE}': result.data.user.language_code,
      '{PREMIUM}': result.data.user.is_premium ? 'Yes' : 'No',
-     '{PM}': result.data.user.allows_write_to_pm ? 'Yes' : 'No',
+     '{PM}': result.data.user.allows_write_to_pm ? 'Yes' : 'No'
     });
     break;
    default:
     html = translate(await getFileContent('html/login-error.html'), { '{ERROR}': result.message ? result.message : 'Unknown' });
   }
  } else {
-  html = await getFileContent('html/login-unrecognized.html')
+  html = await getFileContent('html/login-unrecognized.html');
  }
  qs('#userinfo').innerHTML = html;
 }
@@ -43,7 +43,7 @@ async function dealCards() {
   html += '<div class="row">';
   for (let j = 0; j < 6; j++) {
    html += translate(cardTemp, {
-    '{ID}': (i * 6) + j,
+    '{ID}': i * 6 + j
    });
   }
   html += '</div>';
@@ -57,7 +57,7 @@ function flipCard(cardElem) {
 }
 
 async function getFileContent(file) {
- const content = await fetch(file, { headers: { 'cache-control': 'no-cache' }});
+ const content = await fetch(file, { headers: { 'cache-control': 'no-cache' } });
  return content.text();
 }
 
