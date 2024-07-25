@@ -15,7 +15,7 @@ if [ "$#" -eq 0 ]; then
  echo "Git commit & push script"
  echo "------------------------"
  echo ""
- echo "This script commits changes and pushes it on GitHub."
+ echo "This script commits the changes and pushes them to GitHub."
  echo ""
  echo "Usage: $0 \"[SOME COMMENT]\""
  echo "Example: $0 \"Add README.md\""
@@ -30,6 +30,12 @@ if [ ! -d "./.git/" ]; then
 else
  git remote set-url origin https://$USER:$PASS@github.com/$USER/$REPO
 fi
+#if ! command -v prettier &> /dev/null
+#then
+# echo "Prettier not found, installing..."
+# bun i -g prettier
+#fi
+#prettier --write "src/**/*.{js,ts,css,html}"
 git config user.name "$NAME"
 git config user.email "$EMAIL"
 git status
