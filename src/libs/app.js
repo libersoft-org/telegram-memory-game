@@ -112,7 +112,20 @@ class App {
    let settings = {
     welcome: {
      message: 'Welcome!',
-     buttons: [[{ text: 'Start the app', web_app: { url: 'https://memory.libersoft.org/' } }], [{ text: 'Official website', url: 'https://libersoft.org/' }]]
+     buttons: [
+      [
+       {
+        text: 'Start the app',
+        web_app: { url: 'https://memory.libersoft.org/' }
+       }
+      ],
+      [
+       {
+        text: 'Official website',
+        url: 'https://libersoft.org/'
+       }
+      ]
+     ]
     }
    };
    fs.writeFileSync(Common.appPath + Common.botFile, JSON.stringify(settings, null, ' '));
