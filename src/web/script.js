@@ -3,7 +3,7 @@ let markedCards = [];
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  await auth(Telegram.WebApp.initData);
- await dealCards();
+ await dealCards(5, 4);
 });
 
 async function auth(data) {
@@ -38,14 +38,14 @@ async function auth(data) {
  qs('#userinfo').innerHTML = html;
 }
 
-async function dealCards() {
+async function dealCards(x, y) {
  const cardTemp = await getFileContent('html/card.html');
  let html = '';
- for (let i = 0; i < 6; i++) {
+ for (let i = 1; i <= y; i++) {
   html += '<div class="row">';
-  for (let j = 0; j < 6; j++) {
+  for (let j = 1; j <= x; j++) {
    html += translate(cardTemp, {
-    '{ID}': i * 6 + j
+    '{ID}': x * (i - 1) + j
    });
   }
   html += '</div>';
