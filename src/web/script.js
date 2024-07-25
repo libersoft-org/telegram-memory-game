@@ -1,3 +1,5 @@
+let markedCards = [];
+
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  await auth(Telegram.WebApp.initData);
@@ -51,9 +53,32 @@ async function dealCards() {
  qs('#cards').innerHTML = html;
 }
 
+function markCard(cardElem) {
+ const id = parseInt(cardElem.id.replace('card-', ''));
+ if (cardElem.querySelector('.inner').classList.contains('flipped')) return;
+ if (markedCards.includes(id)) {
+  let mid = markedCards.indexOf(id);
+  if (mid !== -1) markedCards.splice(mid, 1);
+  cardElem.querySelector('.inner').classList.remove('marked');
+ } else {
+  if (markedCards.length < 2) {
+   markedCards.push(id);
+   cardElem.querySelector('.inner').classList.add('marked');
+  }
+  if (markedCards.length == 2) {
+   for (let i of markedCards) {
+    qs('#card-' + i)
+     .querySelector('.inner')
+     .classList.remove('marked');
+    flipCard(qs('#card-' + i));
+   }
+   markedCards = [];
+  }
+ }
+}
+
 function flipCard(cardElem) {
- let inner = cardElem.querySelector('.inner');
- inner.classList.toggle('flipped');
+ cardElem.querySelector('.inner').classList.toggle('flipped');
 }
 
 async function getFileContent(file) {

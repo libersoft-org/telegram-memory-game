@@ -63,6 +63,10 @@ table tr td {
  transform: rotateY(0deg);
 }
 
+.card .inner.marked {
+ filter: brightness(0.5);
+}
+
 .card .inner.flipped {
  transform: rotateY(180deg);
 }
