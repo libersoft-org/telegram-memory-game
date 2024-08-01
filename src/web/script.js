@@ -5,22 +5,27 @@ document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  window.Telegram.WebApp.expand();
  await auth(Telegram.WebApp.initData);
- await menu();
- //await dealCards(5, 4);
+ await getMenuPage();
 });
 
-async function menu() {
+async function getMenuPage() {
  const html = await f.getFileContent('html/menu.html');
  f.qs('#game').innerHTML = html;
+ await getScore();
 }
 
-async function startGame() {
+async function getScore() {
+ const res = await f.getAPI('score');
+ f.qs('#game .score').innerHTML = res && res.hasOwnProperty('error') && res.error == 0 ? res.data.score : 'ERROR: ' + res.message;
+}
+
+async function getStartGamePage() {
  const html = await f.getFileContent('html/game.html');
  f.qs('#game').innerHTML = html;
  await dealCards(5, 4);
 }
 
-async function highScore() {
+async function getHighScorePage() {
  const html = await f.getFileContent('html/highscore.html');
  f.qs('#game').innerHTML = html;
 }
