@@ -4,8 +4,25 @@ let markedCards = [];
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  await auth(Telegram.WebApp.initData);
- await dealCards(5, 4);
+ await menu();
+ //await dealCards(5, 4);
 });
+
+async function menu() {
+ const html = await f.getFileContent('html/menu.html');
+ f.qs('#game').innerHTML = html;
+}
+
+async function startGame() {
+ const html = await f.getFileContent('html/game.html');
+ f.qs('#game').innerHTML = html;
+ await dealCards(5, 4);
+}
+
+async function highScore() {
+ const html = await f.getFileContent('html/highscore.html');
+ f.qs('#game').innerHTML = html;
+}
 
 async function auth(data) {
  const res = await f.getAPI('login', { data: data });

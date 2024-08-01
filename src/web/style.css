@@ -33,6 +33,37 @@ table tr td {
  font-weight: bold;
 }
 
+.button {
+ padding: 10px;
+ cursor: pointer;
+ font-weight: bold;
+ border: 1px solid #000;
+ border-radius: 10px;
+ background-color: #f0d23c;
+ color: #000;
+}
+
+.button.disabled {
+ background-color: #bbb;
+}
+
+#game {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 10px;
+}
+
+#game .title {
+ font-size: 24px;
+ font-weight: bold;
+}
+
+#game .score {
+ font-size: 30px;
+ font-weight: bold;
+}
+
 #cards {
  display: flex;
  flex-direction: column;
