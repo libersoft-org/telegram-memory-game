@@ -65,15 +65,18 @@ table tr td {
 }
 
 #cards {
- display: grid;
- grid-template-columns: repeat(5, 1fr);
+ display: flex;
+ flex-wrap: wrap;
+ /*grid-template-columns: repeat(5, 1fr);*/
  /*grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));*/
  gap: 10px;
+ width: 600px;
+ max-width: 100%;
 }
 
 .card {
- width: 100%;
- min-width: 100px;
+ flex: 1 1 60px;
+ max-width: 250px;
  aspect-ratio: 1 / 1;
  cursor: pointer;
 }
