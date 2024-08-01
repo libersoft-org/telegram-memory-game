@@ -101,7 +101,7 @@ table tr td {
  /*place-items: center;*/
  /*justify-items: center;*/
  gap: 10px;
- width: 100%;
+ width: calc(100% - 20px);
 }
 
 #game #cards .card {
