@@ -66,15 +66,14 @@ table tr td {
 
 #cards {
  display: grid;
- flex-wrap: wrap;
  grid-template-columns: repeat(5, 1fr);
  /*place-items: center;*/
+ /*justify-items: center;*/
  gap: 10px;
  width: 100%;
 }
 
 .card {
- flex: 1 1 60px;
  max-width: 150px;
  aspect-ratio: 1 / 1;
  cursor: pointer;
