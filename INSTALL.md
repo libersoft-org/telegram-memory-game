@@ -26,8 +26,8 @@ apt -y upgrade
 apt install curl unzip git
 curl -fsSL https://bun.sh/install | bash
 source /root/.bashrc
-git clone https://github.com/libersoft-org/telegram-web-app.git
-cd telegram-web-app/src
+git clone https://github.com/libersoft-org/telegram-memory-game.git
+cd telegram-memory-game/src
 ./start.sh --create-settings
 ./start.sh --create-bot
 ```
