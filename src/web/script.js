@@ -3,6 +3,7 @@ let markedCards = [];
 
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
+ window.Telegram.WebApp.expand();
  await auth(Telegram.WebApp.initData);
  await menu();
  //await dealCards(5, 4);
