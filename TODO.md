@@ -1,5 +1,5 @@
 # Bugs
-- Dynamic width (for example 60 - 150px) for each card for low resolutions
+- Too big gaps between cards on big resolutions
 
 # Features
 - Create a backend server that manages games for each user
