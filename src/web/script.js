@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function auth(data) {
  const res = await f.getAPI('login', { data: data });
- console.log(res);
  let html = '';
  if (res && res.hasOwnProperty('error')) {
   switch (res.error) {
