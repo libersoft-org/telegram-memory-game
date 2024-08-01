@@ -52,16 +52,17 @@ async function auth(data) {
 }
 
 async function dealCards(x, y) {
+ markedCards = [];
  const cardTemp = await f.getFileContent('html/card.html');
  let html = '';
  for (let i = 1; i <= y; i++) {
-  html += '<div class="row">';
+  //html += '<div class="row">';
   for (let j = 1; j <= x; j++) {
    html += f.translate(cardTemp, {
     '{ID}': x * (i - 1) + j
    });
   }
-  html += '</div>';
+  //html += '</div>';
  }
  f.qs('#cards').innerHTML = html;
 }
