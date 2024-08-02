@@ -115,3 +115,18 @@ async function markCard(cardElem) {
 function flipCard(cardElem) {
  cardElem.querySelector('.inner').classList.toggle('flipped');
 }
+
+async function cancelGame() {
+ const res = await f.getAPI('cancel_game');
+ if (res && res.hasOwnProperty('error')) {
+  switch (res.error) {
+   case 0:
+    getMainPage();
+    break;
+   default:
+    html = alert('Error: ' + (res.message ? res.message : 'Unknown'));
+  }
+ } else {
+  alert('Unrecognized response from server');
+ }
+}
