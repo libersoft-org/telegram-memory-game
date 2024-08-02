@@ -2,10 +2,6 @@ const crypto = require('crypto');
 const Data = require('./data.js');
 const Common = require('./common.js').Common;
 
-/* game piece state */
-const PUT = 0;
-const FLIPPED = 1;
-const MATCHED = 2;
 
 
 class Game {
@@ -24,6 +20,7 @@ class Game {
     }
 }
 
+
 class API {
     constructor() {
 
@@ -34,10 +31,13 @@ class API {
 
         this.apiMethods = {
             login: this.login,
+            user_info: this.user_info,
             get_game: this.get_game,
-            flip_card: this.flip_card,
+            new_game: this.new_game,
+            flip_cards: this.flip_cards,
         };
     }
+
 
     async processAPI(name, params) {
         console.log('API request: ', name);
@@ -45,6 +45,11 @@ class API {
         const method = this.apiMethods[name];
         if (method) return await method.call(this, params);
         else return {error: 1, message: 'API not found'};
+    }
+
+    async user_info(p) {
+        return {result: {total_score: 0}};
+
     }
 
     async login(p = {}) {
@@ -95,12 +100,12 @@ class API {
 
         game.score = 0;
 
-        const num_pictures = 10;
+        const num_images = 10;
 
         game.board = [];
-        for (let i = 0; i < num_pictures; i++) {
+        for (let i = 0; i < num_images; i++) {
             for (let j = 0; j < 2; j++)
-                game.board.push({picture: i, state: PUT});
+                game.board.push({image: i, found: false});
         }
         game.board = shuffle(game.board);
 
@@ -123,13 +128,13 @@ class API {
         game.lock();
         let result = {score: game.score, board: this.visibleBoard(game.board)};
         game.unlock();
-        return result;
+        return {result};
     }
 
     visibleBoard(board) {
         return board.map(card => {
-            if (card.state === PUT) return {state: PUT};
-            else return {state: card.state, picture: card.picture};
+            if (card.found) return card;
+            else return {found: false};
         });
     }
 
@@ -141,47 +146,37 @@ class API {
         return board.filter(card => card.state === FLIPPED);
     }
 
-    flip_card(p) {
+    flip_cards(p) {
 
         let game = getGame(p.user_id);
         game.lock();
         
-        let num_flipped = getNumFlipped(game.board);
-     
-        if (num_flipped === 2) {
-            // two cards are already flipped, flip them back
-            game.board.forEach(card => {
-                if (card.state === FLIPPED) card.state = PUT;
-            });
+        let cards = p.cards;
+        if (cards.length !== 2) return {error: 1, message: 'Invalid number of cards'};
+        let board = game.board;
+
+        if (board[cards[0]].found || board[cards[1]].found) return {error: 'Card already found'};
+        
+        if (board[cards[0]].image = board[cards[1]].image) {
+            board[cards[0]].found = true;
+            board[cards[1]].found = true;
+            game.score += 5;
         }
         else {
-            let idx = params.idx;
-            game.board[idx].state = FLIPPED;
+            game.score -= 1;
         }
         
-        num_flipped = getNumFlipped(game.board);
+        let result = {};
+        result[cards[0]] = {found: board[cards[0]].found, image: board[cards[0]].image};
+        result[cards[1]] = {found: board[cards[1]].found, image: board[cards[1]].image};
         
-        if (num_flipped === 2) {
-            let flipped = getFlipped(game.board);
-            if (flipped[0].picture === flipped[1].picture) {
-                // two cards are the same
-                flipped.forEach(card => {
-                    card.state = MATCHED;
-                });
-                game.score += 5;
-            }
-            else {
-                game.score -= 1;
-            }
-        }
-
-        game.unlock();
-
         return {
             result: {
-                message: 'ok'
+                result
             }
         };
+
+        game.unlock();
     }
 }
 
