@@ -152,6 +152,9 @@ class API {
     flip_cards(p) {
 
         let game = this.getGame(p.user_id);
+        
+        if (game.board.length == 0) return {error: 1, message: 'No game started'};
+        
         game.lock();
         
         let cards = p.cards;
