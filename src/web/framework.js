@@ -6,13 +6,22 @@ class Framework {
   return (await fetch(file, { headers: { 'cache-control': 'no-cache' } })).text();
  }
 
- async getAPI(name, body = null) {
+ async getAPI(name, body = {}) {
+  body.user_id = 0;
   const res = await fetch(this.pathAPI + name, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
    body: body ? JSON.stringify(body) : '{}'
   });
-  return res.ok ? await res.json() : false;
+  if (!res.ok) {
+      console.error('API error: ', res);
+      return null;
+  }
+  const res_json = await res.json();
+  if (res_json.error) {
+      console.error('API error: ', res_json);
+  }
+  return res_json;
  }
 
  translate(template, dictionary) {
