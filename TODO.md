@@ -2,10 +2,9 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-- Create a backend server that manages games for each user
 - Store score for each user (each finished game score will be stored in table + overall score for user)
 - Show high score table (coins + number of finished games)
-- Create a frontend that interacts with backend
+- Game management per user (start, cancel, resume, new)
 - Create a "screenshot.webp" with an in-game image
 - Connect TON wallet
 - Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
