@@ -2,7 +2,6 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-- Show navbar in all pages
 - Create a backend server that manages games for each user
 - Store score for each user (each finished game score will be stored in table + overall score for user)
 - Show high score table (coins + number of finished games)

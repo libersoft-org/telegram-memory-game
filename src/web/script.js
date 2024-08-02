@@ -14,7 +14,7 @@ async function auth(data) {
   switch (res.error) {
    case 0:
     localStorage.setItem('data', JSON.stringify(res.data));
-    await getMenuPage();
+    await getMainPage();
     break;
    default:
     html = f.translate(await f.getFileContent('html/login-error.html'), { '{ERROR}': res.message ? res.message : 'Unknown' });
@@ -26,26 +26,32 @@ async function auth(data) {
  }
 }
 
+async function getMainPage() {
+ const html = await f.getFileContent('html/main.html');
+ document.body.innerHTML = html;
+ await getMenuPage();
+}
+
 async function getMenuPage() {
  const html = await f.getFileContent('html/menu.html');
- document.body.innerHTML = html;
+ f.qs('#content').innerHTML = html;
  await getScore();
 }
 
 async function getScore() {
  const res = await f.getAPI('get_score');
- f.qs('#menu .score .number').innerHTML = res && res.hasOwnProperty('error') && res.error == 0 ? res.data.score.toLocaleString() : 'ERROR: ' + res.message;
+ f.qs('#navbar .score .number').innerHTML = res && res.hasOwnProperty('error') && res.error == 0 ? res.data.score.toLocaleString() : 'ERROR: ' + res.message;
 }
 
-async function getStartGamePage() {
+async function getGamePage() {
  const html = await f.getFileContent('html/game.html');
- document.body.innerHTML = html;
+ f.qs('#content').innerHTML = html;
  await dealCards(5, 4);
 }
 
 async function getHighScorePage() {
  const html = await f.getFileContent('html/highscore.html');
- document.body.innerHTML = html;
+ f.qs('#content').innerHTML = html;
 }
 
 async function getProfilePage() {
@@ -61,7 +67,7 @@ async function getProfilePage() {
   '{PREMIUM}': data.user.is_premium ? 'Yes' : 'No',
   '{PM}': data.user.allows_write_to_pm ? 'Yes' : 'No'
  });
- document.body.innerHTML = html;
+ f.qs('#content').innerHTML = html;
 }
 
 async function dealCards(x, y) {

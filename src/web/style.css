@@ -60,66 +60,22 @@ table tr td {
  animation: loader 1s infinite linear;
 }
 
+.loader-nav {
+ margin: 0 auto;
+ width: 20px;
+ height: 20px;
+ border-radius: 50%;
+ background:
+  radial-gradient(farthest-side, #fff 94%, #fff0) top/4px 4px no-repeat,
+  conic-gradient(#fff0 30%, #fff);
+ -webkit-mask: radial-gradient(farthest-side, #fff0 calc(100% - 4px), #fff 0);
+ animation: loader 1s infinite linear;
+}
+
 @keyframes loader {
  100% {
   transform: rotate(1turn);
  }
-}
-
-.navbar {
- display: flex;
- flex-direction: row;
- align-items: center;
- justify-content: space-between;
- gap: 10px;
- width: calc(100% - 20px);
- height: 50px;
- padding: 10px;
- background-color: #222;
-}
-
-.navbar .right,
-.navbar .left {
- display: flex;
- flex-direction: row;
- gap: 10px;
-}
-
-.navbar .item {
- display: flex;
- align-items: center;
- justify-content: center;
- width: 30px;
- height: 30px;
- padding: 5px;
- border-radius: 20px;
- font-size: 12px;
- font-weight: bold;
- cursor: pointer;
- background-color: #eee;
-}
-
-.navbar .item img {
- width: 20px;
- height: 20px;
-}
-
-.navbar .score {
- display: flex;
- flex-direction: row;
- align-items: center;
- gap: 10px;
-}
-
-.navbar .score .icon {
- width: 24px;
- height: 24px;
-}
-
-.navbar .score .number {
- font-size: 20px;
- font-weight: bold;
- color: #ddd;
 }
 
 #splash {
@@ -136,17 +92,72 @@ table tr td {
  font-weight: bold;
 }
 
-#menu,
-#highscore,
-#game,
-#userinfo {
+#navbar {
  display: flex;
- flex-direction: column;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ gap: 10px;
+ width: calc(100% - 20px);
+ height: 50px;
+ padding: 10px;
+ background-color: #222;
+}
+
+#navbar .right,
+#navbar .left {
+ display: flex;
+ flex-direction: row;
+ gap: 10px;
+}
+
+#navbar .item {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 30px;
+ height: 30px;
+ padding: 5px;
+ border-radius: 20px;
+ font-size: 12px;
+ font-weight: bold;
+ cursor: pointer;
+ background-color: #eee;
+}
+
+#navbar .item img {
+ width: 20px;
+ height: 20px;
+}
+
+#navbar .score {
+ display: flex;
+ flex-direction: row;
  align-items: center;
  gap: 10px;
 }
 
-#game #cards {
+#navbar .score .icon {
+ width: 24px;
+ height: 24px;
+}
+
+#navbar .score .number {
+ font-size: 20px;
+ font-weight: bold;
+ color: #ddd;
+}
+
+#content {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 10px;
+ padding: 10px;
+ width: calc(100% - 20px);
+}
+
+#cards {
  display: grid;
  grid-template-columns: repeat(5, 1fr);
  /*place-items: center;*/
@@ -155,13 +166,13 @@ table tr td {
  width: calc(100% - 20px);
 }
 
-#game #cards .card {
+#cards .card {
  max-width: 150px;
  aspect-ratio: 1 / 1;
  cursor: pointer;
 }
 
-#game #cards .card .inner {
+#cards .card .inner {
  width: 100%;
  height: 100%;
  overflow: hidden;
@@ -173,16 +184,16 @@ table tr td {
  transform: rotateY(0deg);
 }
 
-#game #cards .card .inner.marked {
+#cards .card .inner.marked {
  filter: brightness(0.5);
 }
 
-#game #cards .card .inner.flipped {
+#cards .card .inner.flipped {
  transform: rotateY(180deg);
 }
 
-#game #cards .card .inner .front,
-#game #cards .card .inner .back {
+#cards .card .inner .front,
+#cards .card .inner .back {
  position: absolute;
  width: 100%;
  height: 100%;
@@ -191,6 +202,6 @@ table tr td {
  border-radius: 10px;
 }
 
-#game #cards .card .inner .front {
+#cards .card .inner .front {
  transform: rotateY(180deg);
 }
