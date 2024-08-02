@@ -33,8 +33,8 @@ async function getMenuPage() {
 }
 
 async function getScore() {
- const res = await f.getAPI('score');
- f.qs('#menu .score').innerHTML = res && res.hasOwnProperty('error') && res.error == 0 ? res.data.score : 'ERROR: ' + res.message;
+ const res = await f.getAPI('get_score');
+ f.qs('#menu .score .number').innerHTML = res && res.hasOwnProperty('error') && res.error == 0 ? res.data.score.toLocaleString() : 'ERROR: ' + res.message;
 }
 
 async function getStartGamePage() {
@@ -91,7 +91,7 @@ async function markCard(cardElem) {
    cardElem.querySelector('.inner').classList.add('marked');
   }
   if (markedCards.length == 2) {
-   const res = await f.getAPI('flip', markedCards);
+   const res = await f.getAPI('get_flip', { cards: markedCards });
    console.log(res);
    /*
    for (let i of markedCards) {

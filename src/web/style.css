@@ -91,7 +91,19 @@ table tr td {
 }
 
 #menu .score {
- font-size: 30px;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ gap: 10px;
+}
+
+#menu .score .icon {
+ width: 32px;
+ height: 32px;
+}
+
+#menu .score .number {
+ font-size: 25px;
  font-weight: bold;
 }
 

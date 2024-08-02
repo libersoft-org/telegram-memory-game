@@ -4,9 +4,17 @@ const Common = require('./common.js').Common;
 
 class API {
  constructor() {
+  this.board = null; // MOCKUP BOARD FOR ALL USERS THE SAME, DELETE IT WHEN NOT NEEDED ANYMORE
+  this.game_score = 0; // MOCKUP SCORE OF THE CURRENT GAME, FOR ALL USERS THE SAME, DELETE IT WHEN NOT NEEDED ANYMORE
+  this.total_score = 0; // MOCKUP TOTAL SCORE, FOR ALL USERS THE SAME, DELETE IT WHEN NOT NEEDED ANYMORE
+
   this.data = new Data();
   this.apiMethods = {
-   login: this.login
+   login: this.login,
+   get_score: this.getScore,
+   get_game: this.getGame,
+   cancel_game: this.cancelGame,
+   get_flip: this.getFlip
   };
  }
 
@@ -40,6 +48,68 @@ class API {
   } else {
    return { error: 1, message: 'User verification failed' };
   }
+ }
+
+ async getScore() {
+  // MOCKUP ONLY!
+  return { error: 0, data: { score: 123456 } };
+ }
+
+ getGame() {
+  // USES MOCKUP ONLY!
+  if (this.board === null) {
+   // START A NEW GAME
+   const board = [];
+   for (let i = 0; i <= 10; i++) {
+    board.push({ item: i, flipped: false });
+    board.push({ item: i, flipped: false });
+   }
+   for (let i = board.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [board[i], board[j]] = [board[j], board[i]];
+   }
+   this.board = board;
+   return {
+    error: 0,
+    data: {
+     resume: false,
+     message: 'New game started' // delete this?
+    }
+   };
+  } else {
+   // RESUME THE OLD GAME
+   flipped = [];
+   for (let i = 0; i < this.board.length; i++) {
+    // get already flipped items
+    if (this.board[i].flipped) flipped.push({ id: i, item: this.board[i].item });
+   }
+   return {
+    error: 0,
+    data: {
+     resume: true,
+     flipped: flipped,
+     score: this.game_score
+    }
+   };
+  }
+ }
+
+ cancelGame() {
+  // USES MOCKUP ONLY!
+  if (this.board === null) return { error: 1, message: 'The game has not started yet.' };
+  this.game_score = 0;
+  this.board = null;
+  return { error: 0, data: { message: 'Game canceled' } };
+ }
+
+ getFlip() {
+  // USES MOCKUP ONLY!
+  if (this.board === null) return { error: 1, message: 'The game has not started yet.' };
+  // check if we get 2 cards IDs
+  // check if these 2 cards exist in array
+  // check if these 2 cards are not flipped yet
+  // -1 score for bad guess
+  // +5 score for good guess
  }
 }
 
