@@ -151,7 +151,7 @@ class API {
 
     flip_cards(p) {
 
-        let game = getGame(p.user_id);
+        let game = this.getGame(p.user_id);
         game.lock();
         
         let cards = p.cards;
@@ -175,7 +175,7 @@ class API {
         
         return {
             result: {
-                result
+                cards: result
             }
         };
 
