@@ -1,10 +1,21 @@
 <div id="menu">
- <div class="score">
-  <div class="icon"><img src="img/coin.svg" alt="Score" /></div>
-  <div class="number"></div>
+ <div class="navbar">
+  <div class="left">
+   <div class="item" onclick="getMenuPage()"><img src="img/menu.svg" alt="Menu" /></div>
+   <div class="item" onclick="window.open('https://t.me/memory_game_ann', '_blank')"><img src="img/channel.svg" alt="Channel" /></div>
+   <div class="item" onclick="window.open('https://t.me/memory_game_chat', '_blank')"><img src="img/chat.svg" alt="Chat" /></div>
+   <div class="item" onclick="getHighScorePage()"><img src="img/highscore.svg" alt="High score" /></div>
+   <div class="item" onclick="getProfilePage()"><img src="img/profile.svg" alt="Profile" /></div>
+  </div>
+  <div class="right">
+   <div class="score">
+    <div class="icon"><img src="img/coin.svg" alt="Score" /></div>
+    <div class="number"></div>
+   </div>
+  </div>
  </div>
  <div class="button" onclick="getStartGamePage()">Start game</div>
  <div class="button" onclick="getHighScorePage()">High score</div>
- <div class="button" onclick="getUserInfoPage()">User info</div>
+ <div class="button" onclick="getProfilePage()">Profile</div>
  <div class="button disabled">Connect wallet</div>
 </div>

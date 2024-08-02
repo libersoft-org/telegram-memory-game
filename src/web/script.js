@@ -48,7 +48,7 @@ async function getHighScorePage() {
  document.body.innerHTML = html;
 }
 
-async function getUserInfoPage() {
+async function getProfilePage() {
  const data = JSON.parse(localStorage.getItem('data'));
  const html = f.translate(await f.getFileContent('html/userinfo.html'), {
   '{QUERY_ID}': data.query_id,
