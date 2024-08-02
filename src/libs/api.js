@@ -95,7 +95,7 @@ class API {
 
     new_game(p) {
 
-        let game = getGame(p.user_id);
+        let game = this.getGame(p.user_id);
         game.lock();
 
         game.score = 0;
@@ -107,7 +107,9 @@ class API {
             for (let j = 0; j < 2; j++)
                 game.board.push({image: i, found: false});
         }
-        game.board = shuffle(game.board);
+        game.board = this.shuffle(game.board);
+
+        game.unlock();
 
         return {
             result: {
@@ -115,12 +117,13 @@ class API {
             }
         };
 
-        game.unlock();
     }
 
 
     getGame(user_id) {
-        return this.games[user_id] || new Game();
+        if (!this.games[user_id])
+            this.games[user_id] = new Game();
+        return this.games[user_id];
     }
 
     get_game(p) {
