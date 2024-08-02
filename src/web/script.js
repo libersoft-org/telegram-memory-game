@@ -100,7 +100,7 @@ async function markCard(cardElem) {
         }
         if (markedCards.length == 2) {
             for (let i of markedCards) {
-                const res = await f.getAPI('flip_card', { cards: markedCards });
+                const res = await f.getAPI('flip_cards', { cards: markedCards });
                 console.log(res);
             }
         }
