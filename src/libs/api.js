@@ -26,7 +26,6 @@ class API {
  }
 
  async login(p = {}) {
-  //return {error: 0, data: {id: 0}};
   const parsedData = new URLSearchParams(p.data);
   const hash = parsedData.get('hash');
   parsedData.delete('hash');
@@ -51,11 +50,11 @@ class API {
   game.lock();
   game.score = 0;
   const num_images = 10;
-  game.board = [];
+  game.cards = [];
   for (let i = 0; i < num_images; i++) {
-   for (let j = 0; j < 2; j++) game.board.push({ image: i, found: false });
+   for (let j = 0; j < 2; j++) game.cards.push({ image: i, found: false });
   }
-  game.board = this.shuffle(game.board);
+  game.cards = this.shuffle(game.cards);
   game.unlock();
   return {
    error: 0,
@@ -71,38 +70,38 @@ class API {
  }
 
  shuffle(array) {
-  let currentIndex = array.length,
-   randomIndex;
-  while (currentIndex != 0) {
-   randomIndex = Math.floor(Math.random() * currentIndex);
-   currentIndex--;
-   [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  let curID = array.length,
+   rndID;
+  while (curID != 0) {
+   rndID = Math.floor(Math.random() * curID);
+   curID--;
+   [array[curID], array[rndID]] = [array[rndID], array[curID]];
   }
   return array;
  }
 
  getGame(p) {
-  let game = this.getGameObject(p.user_id);
+  const game = this.getGameObject(p.user_id);
+  // TODO: reset game if game.cards is empty
+  console.log(game);
   game.lock();
-  let result = { score: game.score, cards: this.visibleBoard(game.board) };
+  const found = [];
+  for (let c of game.cards) {
+   if (c.found) {
+    found.push({ id: c.id, image: c.image });
+   }
+  }
   game.unlock();
-  return { error: 0, data: result };
- }
-
- visibleBoard(board) {
-  return board.map(card => {
-   if (card.found) return card;
-   else return { found: false };
-  });
+  return { error: 0, data: { score: game.score, cards: found } };
  }
 
  flipCards(p) {
   let game = this.getGameObject(p.user_id);
-  if (game.board.length == 0) return { error: 1, message: 'No game started' };
+  if (game.cards.length == 0) return { error: 1, message: 'No game started' };
   game.lock();
   let cards = p.cards;
   if (cards.length !== 2) return { error: 2, message: 'Invalid number of cards' };
-  let board = game.board;
+  let board = game.cards;
   if (board[cards[0]].found || board[cards[1]].found) return { error: 3, message: 'Card already found' };
   if (board[cards[0]].image == board[cards[1]].image) {
    board[cards[0]].found = true;
@@ -119,14 +118,14 @@ class API {
   };
  }
 
- getNumFlipped(board) {
+ getNumFlipped(cards) {
   // NOT USED?
-  return getFlipped(board).length;
+  return getFlipped(cards).length;
  }
 
- getFlipped(board) {
+ getFlipped(cards) {
   // NOT USED IF getNumFlipped NOT USED?
-  return board.filter(card => card.state === FLIPPED);
+  return cards.filter(card => card.state === FLIPPED);
  }
 
  async getScore(p) {

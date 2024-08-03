@@ -1,6 +1,6 @@
 class Game {
  constructor() {
-  this.board = [];
+  this.cards = [];
   this.score = 0;
  }
 

@@ -24,13 +24,13 @@ async function getMainPage() {
 async function getMenuPage() {
  const html = await f.getFileContent('html/menu.html');
  f.qs('#content').innerHTML = html;
- //await getScore();
+ await getScore();
 }
 
 async function getScore() {
  const res = await f.getAPI('get_score');
  if (checkErrors(res)) return;
- f.qs('#navbar .score .number').innerHTML = res.score.toLocaleString();
+ f.qs('#navbar .score .number').innerHTML = res.data.score.toLocaleString();
 }
 
 async function getGamePage() {
