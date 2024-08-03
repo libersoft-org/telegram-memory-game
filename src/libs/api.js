@@ -10,7 +10,7 @@ class API {
   this.data = new Data();
   this.apiMethods = {
    login: this.login,
-   new_game: this.newGame,
+   reset_game: this.resetGame,
    get_game: this.getGame,
    flip_cards: this.flipCards,
    get_score: this.getScore
@@ -46,7 +46,7 @@ class API {
   }
  }
 
- newGame(p) {
+ resetGame(p) {
   let game = this.getGameObject(p.user_id);
   game.lock();
   game.score = 0;
@@ -58,7 +58,8 @@ class API {
   game.board = this.shuffle(game.board);
   game.unlock();
   return {
-   result: {
+   error: 0,
+   data: {
     message: 'New game started'
    }
   };
@@ -83,9 +84,9 @@ class API {
  getGame(p) {
   let game = this.getGameObject(p.user_id);
   game.lock();
-  let result = { score: game.score, board: this.visibleBoard(game.board) };
+  let result = { score: game.score, cards: this.visibleBoard(game.board) };
   game.unlock();
-  return { result };
+  return { error: 0, data: result };
  }
 
  visibleBoard(board) {

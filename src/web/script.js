@@ -1,5 +1,6 @@
 const f = new Framework();
 let markedCards = [];
+let canPlay = true;
 
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
@@ -32,14 +33,19 @@ async function getScore() {
  f.qs('#navbar .score .number').innerHTML = res.score.toLocaleString();
 }
 
-async function getGame() {
- const res = await f.getAPI('new_game');
-}
-
 async function getGamePage() {
  const html = await f.getFileContent('html/game.html');
  f.qs('#content').innerHTML = html;
+ const res = await f.getAPI('get_game');
+ if (checkErrors(res)) return;
  await dealCards(5, 4);
+ console.log(res.data);
+ setScoreGame(res.data.score);
+ // TODO: load flipped cards
+}
+
+function setScoreGame(score) {
+ f.qs('#score-game').innerHTML = 'Score: ' + score;
 }
 
 async function getHighScorePage() {
@@ -76,6 +82,7 @@ async function dealCards(x, y) {
 }
 
 async function markCard(cardElem) {
+ if (!canPlay) return;
  const id = parseInt(cardElem.id.replace('card-', ''));
  if (cardElem.querySelector('.inner').classList.contains('flipped')) return;
  if (markedCards.includes(id)) {
@@ -98,26 +105,27 @@ async function markCard(cardElem) {
     elCard.classList.toggle('flipped');
    }
    if (res.data.cards[0].image !== res.data.cards[1].image) {
+    canPlay = false;
     setTimeout(() => {
      for (card of res.data.cards) {
       f.qs('#card-' + card.id + ' .inner').classList.toggle('flipped');
-      // TODO: put back.svg to front again
+      canPlay = true;
      }
     }, 2000);
    }
-   f.qs('#score-game').innerHTML = 'Score: ' + res.data.score;
+   setScoreGame(res.data.score);
    markedCards = [];
   }
  }
 }
 
-/* TODO: DELETE THIS IF REALLY NOT NEEDED ANYMORE
-async function cancelGame() {
- const res = await f.getAPI('cancel_game');
+async function resetGame() {
+ if (!canPlay) return;
+ const res = await f.getAPI('reset_game');
  if (checkErrors(res)) return;
- getMainPage();
+ setScoreGame(0);
+ await dealCards(5, 4);
 }
- */
 
 function checkErrors(res) {
  if (!res || !res.hasOwnProperty('error')) {
