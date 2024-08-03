@@ -1,9 +1,10 @@
 # Bugs
+- Sometimes the game stays in locked state and server has to be restarted
 - Too big gaps between cards on big resolutions
 
 # Features
 - Frontend: Flip cards
-- Frontend: Score is not loading
+- Frontend: Total score is not loading
 - Frontend: Cancel game -> Restart game
 - Backend: When new / resume game, don't send the whole array of unflipped cards
 - Backend: When flipping cards, don't send flip = false / true
@@ -19,7 +20,6 @@
 
 # Questions
 - If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
-- What if game stays in locked state?
 
 # Future versions
 - Daily rewards

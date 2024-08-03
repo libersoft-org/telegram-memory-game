@@ -23,7 +23,7 @@ async function getMainPage() {
 async function getMenuPage() {
  const html = await f.getFileContent('html/menu.html');
  f.qs('#content').innerHTML = html;
- await getScore();
+ //await getScore();
 }
 
 async function getScore() {
@@ -89,20 +89,35 @@ async function markCard(cardElem) {
   }
   if (markedCards.length == 2) {
    const res = await f.getAPI('flip_cards', { cards: markedCards });
+   if (checkErrors(res)) return;
    console.log(res);
+   for (card of res.data.cards) {
+    let elCard = f.qs('#card-' + card.id + ' .inner');
+    elCard.querySelector('.front img').src = 'img/cards/' + card.image + '.svg';
+    elCard.classList.remove('marked');
+    elCard.classList.toggle('flipped');
+   }
+   if (res.data.cards[0].image !== res.data.cards[1].image) {
+    setTimeout(() => {
+     for (card of res.data.cards) {
+      f.qs('#card-' + card.id + ' .inner').classList.toggle('flipped');
+      // TODO: put back.svg to front again
+     }
+    }, 2000);
+   }
+   f.qs('#score-game').innerHTML = 'Score: ' + res.data.score;
+   markedCards = [];
   }
  }
 }
 
-function flipCard(cardElem) {
- cardElem.querySelector('.inner').classList.toggle('flipped');
-}
-
+/* TODO: DELETE THIS IF REALLY NOT NEEDED ANYMORE
 async function cancelGame() {
  const res = await f.getAPI('cancel_game');
  if (checkErrors(res)) return;
  getMainPage();
 }
+ */
 
 function checkErrors(res) {
  if (!res || !res.hasOwnProperty('error')) {

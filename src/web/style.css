@@ -157,6 +157,11 @@ table tr td {
  width: calc(100% - 20px);
 }
 
+#score-game {
+ font-size: 20px;
+ font-weight: bold;
+}
+
 #cards {
  display: grid;
  grid-template-columns: repeat(5, 1fr);
@@ -170,6 +175,7 @@ table tr td {
  max-width: 150px;
  aspect-ratio: 1 / 1;
  cursor: pointer;
+ perspective: 1000px;
 }
 
 #cards .card .inner {
@@ -197,7 +203,7 @@ table tr td {
  position: absolute;
  width: 100%;
  height: 100%;
- -webkit-backface-visibility: hidden;
+ /*-webkit-backface-visibility: hidden;*/
  backface-visibility: hidden;
  border-radius: 10px;
 }

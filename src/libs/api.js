@@ -22,7 +22,7 @@ class API {
   console.log('Parameters: ', params);
   const method = this.apiMethods[name];
   if (method) return await method.call(this, params);
-  else return { error: 1, message: 'API not found' };
+  else return { error: 900, message: 'API not found' };
  }
 
  async user_info(p) {
@@ -117,9 +117,9 @@ class API {
   if (game.board.length == 0) return { error: 1, message: 'No game started' };
   game.lock();
   let cards = p.cards;
-  if (cards.length !== 2) return { error: 1, message: 'Invalid number of cards' };
+  if (cards.length !== 2) return { error: 2, message: 'Invalid number of cards' };
   let board = game.board;
-  if (board[cards[0]].found || board[cards[1]].found) return { error: 'Card already found' };
+  if (board[cards[0]].found || board[cards[1]].found) return { error: 3, message: 'Card already found' };
   if (board[cards[0]].image == board[cards[1]].image) {
    board[cards[0]].found = true;
    board[cards[1]].found = true;
@@ -131,7 +131,7 @@ class API {
   game.unlock();
   return {
    error: 0,
-   data: { cards: result }
+   data: { cards: result, score: game.score }
   };
  }
 }
