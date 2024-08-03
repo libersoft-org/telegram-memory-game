@@ -31,6 +31,12 @@ class Data {
   return true;
  }
 
+ async getUserBySession(sessionID) {
+  const res = await this.db.query('SELECT id_users FROM users_sessions WHERE session = ?', [sessionID]);
+  console.log(res);
+  console.log(res.length);
+ }
+
  async login(tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm, tg_query, tg_time) {
   const res = await this.db.read('SELECT id, tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm FROM users WHERE tg_id = ?', [tg_id]);
   if (res.length === 0) {
