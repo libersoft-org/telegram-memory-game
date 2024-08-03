@@ -5,7 +5,8 @@
 
 # Features
 - Backend + frontend: Test if game can determine the game is finished (already implemented, just test) + if game score is added to total score
-- Backend: Show high score table (coins + number of finished games)
+- Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader
+- Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend
 - Backend + frontend: Add sessions (from LiberShare)
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
