@@ -81,9 +81,9 @@ async function dealCards(x, y) {
  markedCards = [];
  const cardTemp = await f.getFileContent('html/card.html');
  let html = '';
- for (let i = 1; i <= y; i++) {
-  for (let j = 1; j <= x; j++) {
-   html += f.translate(cardTemp, { '{ID}': x * (i - 1) + j });
+ for (let i = 0; i < y; i++) {
+  for (let j = 0; j < x; j++) {
+   html += f.translate(cardTemp, { '{ID}': x * i + j });
   }
  }
  f.qs('#cards').innerHTML = html;
