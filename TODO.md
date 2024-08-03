@@ -1,5 +1,6 @@
 # Bugs
 - Sometimes the game stays in locked state and server has to be restarted
+- When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Too big gaps between cards on big resolutions
 
 # Features

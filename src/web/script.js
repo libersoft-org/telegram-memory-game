@@ -39,9 +39,13 @@ async function getGamePage() {
  const res = await f.getAPI('get_game');
  if (checkErrors(res)) return;
  await dealCards(5, 4);
- console.log(res.data);
  setScoreGame(res.data.score);
- // TODO: load flipped cards
+ console.log(res.data.cards);
+ for (let c of res.data.cards) {
+  let elCard = f.qs('#card-' + c.id + ' .inner');
+  elCard.querySelector('.front img').src = 'img/cards/' + c.image + '.svg';
+  elCard.classList.toggle('flipped');
+ }
 }
 
 function setScoreGame(score) {

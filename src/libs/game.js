@@ -32,6 +32,7 @@ class Game {
    }
   }
   this.unlock();
+  return found;
  }
 
  flipCards(cardsToFlip) {
