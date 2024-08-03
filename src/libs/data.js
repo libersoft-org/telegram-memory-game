@@ -60,7 +60,7 @@ class Data {
  }
 
  async setScore(id, points) {
-  const res = getScore(id);
+  const res = this.getScore(id);
   console.log(res);
   console.log('ADD: ' + points);
  }
