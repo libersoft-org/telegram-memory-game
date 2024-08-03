@@ -37,6 +37,12 @@ class Game {
 
  flipCards(cardsToFlip) {
   this.lock();
+  let result = this.flipCards2(cardsToFlip);
+  this.unlock();
+  return result;
+ }
+
+ flipCards2(cardsToFlip) {
   if (cardsToFlip.length !== 2) return 1;
   if (this.cards[cardsToFlip[0]].found || this.cards[cardsToFlip[1]].found) return 2;
   if (this.cards[cardsToFlip[0]].image == this.cards[cardsToFlip[1]].image) {
@@ -47,7 +53,6 @@ class Game {
   let result = [];
   result.push({ id: cardsToFlip[0], image: this.cards[cardsToFlip[0]].image });
   result.push({ id: cardsToFlip[1], image: this.cards[cardsToFlip[1]].image });
-  this.unlock();
   return result;
  }
 
