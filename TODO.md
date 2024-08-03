@@ -2,7 +2,9 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-- Frontend: flip cards
+- Frontend: Flip cards
+- Frontend: Score is not loading
+- Frontend: Cancel game -> Restart game
 - Backend: When new / resume game, don't send the whole array of unflipped cards
 - Backend: When flipping cards, don't send flip = false / true
 - Backend + frontend: Add sessions (from LiberShare)
@@ -12,6 +14,7 @@
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
+- Backend + frontend: API request to send mass message from bot to all users (should be allowed to admin only)
 - Create a "screenshot.webp" with an in-game image
 
 # Questions
