@@ -9,7 +9,7 @@
 - Backend + frontend: Test if the game can determine that the game is finished (already implemented, just test) + if game score is added to total score
 - Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
 - Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging
-- Backend - add score transactions table
+- Backend - fill users_transactions table with points from games
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
