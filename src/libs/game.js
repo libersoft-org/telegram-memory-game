@@ -24,14 +24,12 @@ class Game {
  }
 
  getFound() {
-  this.lock();
   const found = [];
   for (let i = 0; i < this.cards.length; i++) {
    if (this.cards[i].found) {
     found.push({ id: i, image: this.cards[i].image });
    }
   }
-  this.unlock();
   return found;
  }
 
@@ -63,7 +61,7 @@ class Game {
 
  lock() {
   if (this.locked) throw new Error('Game is locked');
-  this.locked = true;
+  //this.locked = true;
  }
 
  unlock() {
