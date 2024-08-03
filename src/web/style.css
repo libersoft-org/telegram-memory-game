@@ -165,8 +165,6 @@ table tr td {
 #cards {
  display: grid;
  grid-template-columns: repeat(5, 1fr);
- /*place-items: center;*/
- /*justify-items: center;*/
  gap: 10px;
  width: calc(100% - 20px);
 }
