@@ -81,9 +81,8 @@ class API {
  }
 
  async getScore(p) {
-  // TODO: TOTAL SCORE FROM DATABASE
-  this.data.getScore(p.user_id);
-  return { error: 0, data: { score: 123456 } };
+  const res = await this.data.getScore(p.user_id);
+  return { error: 0, data: { score: res[0].score } };
  }
 }
 
