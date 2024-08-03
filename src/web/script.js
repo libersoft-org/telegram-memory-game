@@ -45,6 +45,7 @@ async function getGamePage() {
   let elCard = f.qs('#card-' + c.id + ' .inner');
   elCard.querySelector('.front img').src = 'img/cards/' + c.image + '.svg';
   elCard.classList.toggle('flipped');
+  canPlay = true;
  }
 }
 

@@ -175,6 +175,7 @@ table tr td {
  max-width: 150px;
  aspect-ratio: 1 / 1;
  cursor: pointer;
+ user-select: none;
  perspective: 1000px;
 }
 

@@ -1,13 +1,15 @@
 # Bugs
 - Backend: Sometimes the game stays in locked state and server has to be restarted
+- Backend: Bot is sending the message twice
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
 - Backend + frontend: Add sessions (from LiberShare) - already in data.js
-- Backend + frontend: Test if game can determine the game is finished (already implemented, just test) + if game score is added to total score
-- Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader
-- Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend
+- Backend + frontend: Test if the game can determine that the game is finished (already implemented, just test) + if game score is added to total score
+- Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
+- Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging
+- Backend - add score transactions table
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
