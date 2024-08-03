@@ -12,6 +12,9 @@
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Create a "screenshot.webp" with an in-game image
 
+# Questions
+- If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
+
 # Future versions
 - Daily rewards
 - Referral invites (rewarded by score coins)
