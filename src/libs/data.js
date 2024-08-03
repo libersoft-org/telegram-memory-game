@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const Database = require('./database.js');
 const Common = require('./common.js').Common;
 
@@ -40,7 +41,8 @@ class Data {
   await this.db.write('INSERT INTO users_logins(id_users, tg_query, tg_time) VALUES (?, ?, ?)', [res2[0].id, tg_query, tg_time]);
 
   const sessionID = crypto.randomBytes(16).toString('hex') + Date.now().toString(16);
-  await this.db.write('INSERT INTO users_sessions (user_id, session, last) VALUES (?, ?, ?)', [res2[0].id, sessionID, new Date()]);
+  Common.addLog('Adding session: ' + sessionID + ' for Telegram user: ' + tg_id + ' to database...');
+  await this.db.write('INSERT INTO users_sessions (id_users, session) VALUES (?, ?)', [res2[0].id, sessionID]);
   return sessionID;
  }
 
