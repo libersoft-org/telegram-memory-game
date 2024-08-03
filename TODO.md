@@ -3,6 +3,8 @@
 
 # Features
 - Frontend: flip cards
+- Backend: When new / resume game, don't send the whole array of unflipped cards
+- Backend: When flipping cards, don't send flip = false / true
 - Backend + frontend: Add sessions (from LiberShare)
 - Backend: Store score for each user (each finished game score will be stored in table + overall score for user)
 - Backend: Show high score table (coins + number of finished games)
