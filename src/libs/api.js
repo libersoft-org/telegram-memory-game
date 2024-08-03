@@ -93,7 +93,7 @@ class API {
   const userID = await this.data.getUserBySession(session);
   // TODO: if !userID (session doesn't exist), then login again and give user his new session ID, then return userID
   console.log('EXPIROVALA SESSION, INFORMUJU UZIVATELE');
-  if (!userID) return { error: 901, message: 'Session expired' };
+  if (!userID) return { error: 900, message: 'Session expired' };
  }
 }
 

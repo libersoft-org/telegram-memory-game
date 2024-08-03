@@ -29,12 +29,13 @@ async function getMenuPage() {
 }
 
 async function getScore() {
- const res = await f.getAPI('get_score');
  console.log('TEST 1');
- if (await checkErrors(res)) return;
+ const res = await f.getAPI('get_score');
  console.log('TEST 2');
- f.qs('#navbar .score .number').innerHTML = res.data.score.toLocaleString();
+ if (await checkErrors(res)) return;
  console.log('TEST 3');
+ f.qs('#navbar .score .number').innerHTML = res.data.score.toLocaleString();
+ console.log('TEST 4');
 }
 
 async function getGamePage() {
@@ -147,7 +148,7 @@ async function checkErrors(res) {
   if (res.error === 900) {
    // session expired
    console.log('ANO, NASTAL SESSION EXPIRED A LOGUJU SE ZNOVU');
-   await login(Telegram.WebApp.initData);
+   //await login(Telegram.WebApp.initData);
    return false;
   } else {
    alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
