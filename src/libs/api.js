@@ -10,10 +10,10 @@ class API {
   this.data = new Data();
   this.apiMethods = {
    login: this.login,
-   user_info: this.user_info,
-   get_game: this.get_game,
-   new_game: this.new_game,
-   flip_cards: this.flip_cards
+   new_game: this.newGame,
+   get_game: this.getGame,
+   flip_cards: this.flipCards,
+   get_score: this.getScore
   };
  }
 
@@ -23,10 +23,6 @@ class API {
   const method = this.apiMethods[name];
   if (method) return await method.call(this, params);
   else return { error: 900, message: 'API not found' };
- }
-
- async user_info(p) {
-  return { result: { total_score: 0 } };
  }
 
  async login(p = {}) {
@@ -50,24 +46,8 @@ class API {
   }
  }
 
- async get_score(p) {
-  let game = getGame(p.user_id);
-  return { result: { score: game.score } };
- }
-
- shuffle(array) {
-  let currentIndex = array.length,
-   randomIndex;
-  while (currentIndex != 0) {
-   randomIndex = Math.floor(Math.random() * currentIndex);
-   currentIndex--;
-   [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
-  return array;
- }
-
- new_game(p) {
-  let game = this.getGame(p.user_id);
+ newGame(p) {
+  let game = this.getGameObject(p.user_id);
   game.lock();
   game.score = 0;
   const num_images = 10;
@@ -84,13 +64,24 @@ class API {
   };
  }
 
- getGame(user_id) {
+ getGameObject(user_id) {
   if (!this.games[user_id]) this.games[user_id] = new Game();
   return this.games[user_id];
  }
 
- get_game(p) {
-  let game = this.getGame(p.user_id);
+ shuffle(array) {
+  let currentIndex = array.length,
+   randomIndex;
+  while (currentIndex != 0) {
+   randomIndex = Math.floor(Math.random() * currentIndex);
+   currentIndex--;
+   [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+ }
+
+ getGame(p) {
+  let game = this.getGameObject(p.user_id);
   game.lock();
   let result = { score: game.score, board: this.visibleBoard(game.board) };
   game.unlock();
@@ -104,16 +95,8 @@ class API {
   });
  }
 
- getNumFlipped(board) {
-  return getFlipped(board).length;
- }
-
- getFlipped(board) {
-  return board.filter(card => card.state === FLIPPED);
- }
-
- flip_cards(p) {
-  let game = this.getGame(p.user_id);
+ flipCards(p) {
+  let game = this.getGameObject(p.user_id);
   if (game.board.length == 0) return { error: 1, message: 'No game started' };
   game.lock();
   let cards = p.cards;
@@ -124,7 +107,7 @@ class API {
    board[cards[0]].found = true;
    board[cards[1]].found = true;
    game.score += 5;
-  } else game.score -= 1;
+  } else game.score--;
   let result = [];
   result.push({ id: cards[0], image: board[cards[0]].image });
   result.push({ id: cards[1], image: board[cards[1]].image });
@@ -133,6 +116,21 @@ class API {
    error: 0,
    data: { cards: result, score: game.score }
   };
+ }
+
+ getNumFlipped(board) {
+  // NOT USED?
+  return getFlipped(board).length;
+ }
+
+ getFlipped(board) {
+  // NOT USED IF getNumFlipped NOT USED?
+  return board.filter(card => card.state === FLIPPED);
+ }
+
+ async getScore(p) {
+  // TODO: TOTAL SCORE FROM DATABASE
+  return { error: 0, data: { score: 123456 } };
  }
 }
 
