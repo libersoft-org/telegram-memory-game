@@ -1,6 +1,4 @@
 # Bugs
-- Backend: Sometimes the game stays in locked state and server has to be restarted
-- Backend: Bot is sending the same message twice
 - Backend: Data.js is constructed twice - from api.js and app.js, thus session garbage collector is running twice at the same time
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: Too big gaps between cards on big resolutions
@@ -22,12 +20,12 @@
 - If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
 
 # Future versions
+- Referral invites (rewarded by score coins)
+- Tasks (Join announcement channel, join chat group etc.)
 - HTML + CSS loaded from API, not as requested files (copy this code from LiberShare)
 - Daily rewards
-- Referral invites (rewarded by score coins)
 - Buy score coins
 - Get collections for score coins (new collections earn score coins faster)
-- Tasks (Join announcement channel, join chat group etc.)
 - Exchange coins to token in wallet
 - Auto earn bots?
 - Contests? (the best players win crypto)
