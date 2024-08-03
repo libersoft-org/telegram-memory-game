@@ -46,16 +46,7 @@ class API {
  }
 
  resetGame(p) {
-  let game = this.getGameObject(p.user_id);
-  game.lock();
-  game.score = 0;
-  const num_images = 10;
-  game.cards = [];
-  for (let i = 0; i < num_images; i++) {
-   for (let j = 0; j < 2; j++) game.cards.push({ image: i, found: false });
-  }
-  game.cards = this.shuffle(game.cards);
-  game.unlock();
+  this.resetGameObject(p.user_id);
   return {
    error: 0,
    data: {
@@ -66,7 +57,23 @@ class API {
 
  getGameObject(user_id) {
   if (!this.games[user_id]) this.games[user_id] = new Game();
+  console.log(this.games[user_id]);
+  if (this.games[user_id].cards == []) this.resetGameObject(user_id);
+  console.log(this.games[user_id]);
   return this.games[user_id];
+ }
+
+ resetGameObject(user_id) {
+  let game = this.getGameObject(user_id);
+  game.lock();
+  game.score = 0;
+  const num_images = 10;
+  game.cards = [];
+  for (let i = 0; i < num_images; i++) {
+   for (let j = 0; j < 2; j++) game.cards.push({ image: i, found: false });
+  }
+  game.cards = this.shuffle(game.cards);
+  game.unlock();
  }
 
  shuffle(array) {
@@ -82,8 +89,6 @@ class API {
 
  getGame(p) {
   const game = this.getGameObject(p.user_id);
-  // TODO: reset game if game.cards is empty
-  console.log(game);
   game.lock();
   const found = [];
   for (let c of game.cards) {
