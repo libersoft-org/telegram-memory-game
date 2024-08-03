@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function login(data) {
  const res = await f.getAPI('login', { data: data });
- if (checkErrors(res)) return;
+ if (await checkErrors(res)) return;
  localStorage.setItem('data', JSON.stringify(res.data.telegram));
  localStorage.setItem('session', JSON.stringify(res.data.session));
 }
@@ -30,15 +30,18 @@ async function getMenuPage() {
 
 async function getScore() {
  const res = await f.getAPI('get_score');
- if (checkErrors(res)) return;
+ console.log('TEST 1');
+ if (await checkErrors(res)) return;
+ console.log('TEST 2');
  f.qs('#navbar .score .number').innerHTML = res.data.score.toLocaleString();
+ console.log('TEST 3');
 }
 
 async function getGamePage() {
  const html = await f.getFileContent('html/game.html');
  f.qs('#content').innerHTML = html;
  const res = await f.getAPI('get_game');
- if (checkErrors(res)) return;
+ if (await checkErrors(res)) return;
  await dealCards(5, 4);
  setScoreGame(res.data.score);
  for (let c of res.data.cards) {
@@ -101,7 +104,7 @@ async function markCard(cardElem) {
   }
   if (markedCards.length == 2) {
    const res = await f.getAPI('flip_cards', { cards: markedCards });
-   if (checkErrors(res)) return;
+   if (await checkErrors(res)) return;
    for (card of res.data.cards) {
     let elCard = f.qs('#card-' + card.id + ' .inner');
     elCard.querySelector('.front img').src = 'img/cards/' + card.image + '.svg';
@@ -130,19 +133,26 @@ async function markCard(cardElem) {
 async function resetGame() {
  if (!canPlay) return;
  const res = await f.getAPI('reset_game');
- if (checkErrors(res)) return;
+ if (await checkErrors(res)) return;
  setScoreGame(0);
  await dealCards(5, 4);
 }
 
-function checkErrors(res) {
+async function checkErrors(res) {
  if (!res || !res.hasOwnProperty('error')) {
   alert('Error: Unknown response from server');
   return true;
  }
  if (res.error !== 0) {
-  alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
-  return true;
+  if (res.error === 900) {
+   // session expired
+   console.log('ANO, NASTAL SESSION EXPIRED A LOGUJU SE ZNOVU');
+   await login(Telegram.WebApp.initData);
+   return false;
+  } else {
+   alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
+   return true;
+  }
  }
  return false;
 }

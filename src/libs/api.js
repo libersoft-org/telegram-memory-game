@@ -82,16 +82,18 @@ class API {
 
  async getScore(p) {
   console.log(p.session);
-  this.getUserBySession(p.session);
+  const res = await this.getUserBySession(p.session);
+  console.log(res);
+
   //const res = await this.data.getScore(p.user_id);
   //return { error: 0, data: { score: res[0].score } };
  }
 
  async getUserBySession(session) {
-  const userID = await this.data.getUserBySession(p.session);
+  const userID = await this.data.getUserBySession(session);
   // TODO: if !userID (session doesn't exist), then login again and give user his new session ID, then return userID
-  // THE PROBLEM IS WE DONT HAVE USER DATA FROM CLIENT ANYMORE, WE HAVE TO ASK USER AGAIN FOR USER DATA SOMEHOW
-  // if (!userID) await this.login();
+  console.log('EXPIROVALA SESSION, INFORMUJU UZIVATELE');
+  if (!userID) return { error: 901, message: 'Session expired' };
  }
 }
 
