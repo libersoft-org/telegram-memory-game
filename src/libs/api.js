@@ -82,12 +82,11 @@ class API {
 
  async getScore(p) {
   console.log(p.session);
-  const res = await this.getUserBySession(p.session);
-  console.log(res);
-  if (!userID) return { error: 900, message: 'Session expired' };
-
-  //const res = await this.data.getScore(p.user_id);
-  //return { error: 0, data: { score: res[0].score } };
+  const user_id = await this.getUserBySession(p.session);
+  //console.log(user_id);
+  if (!user_id) return { error: 900, message: 'Session expired' };
+  const res = await this.data.getScore(user_id);
+  return { error: 0, data: { score: res[0].score } };
  }
 
  async getUserBySession(session) {

@@ -29,7 +29,6 @@ async function getMenuPage() {
 }
 
 async function getScore() {
- console.log('TEST 1');
  const res = await f.getAPI('get_score');
  console.log('TEST 2');
  if (await checkErrors(res)) return;
@@ -146,9 +145,8 @@ async function checkErrors(res) {
  }
  if (res.error !== 0) {
   if (res.error === 900) {
-   // session expired
    console.log('ANO, NASTAL SESSION EXPIRED A LOGUJU SE ZNOVU');
-   //await login(Telegram.WebApp.initData);
+   await login(Telegram.WebApp.initData);
    return false;
   } else {
    alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
