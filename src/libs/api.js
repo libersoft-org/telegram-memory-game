@@ -81,8 +81,17 @@ class API {
  }
 
  async getScore(p) {
-  const res = await this.data.getScore(p.user_id);
-  return { error: 0, data: { score: res[0].score } };
+  console.log(p.session);
+  this.getUserBySession(p.session);
+  //const res = await this.data.getScore(p.user_id);
+  //return { error: 0, data: { score: res[0].score } };
+ }
+
+ async getUserBySession(session) {
+  const userID = await this.data.getUserBySession(p.session);
+  // TODO: if !userID (session doesn't exist), then login again and give user his new session ID, then return userID
+  // THE PROBLEM IS WE DONT HAVE USER DATA FROM CLIENT ANYMORE, WE HAVE TO ASK USER AGAIN FOR USER DATA SOMEHOW
+  // if (!userID) await this.login();
  }
 }
 

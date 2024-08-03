@@ -25,16 +25,17 @@ class Data {
  }
 
  async setSession(sessionID) {
-  const res = await this.db.query('SELECT COUNT(*) AS cnt FROM users_sessions WHERE session = ?', [sessionID]);
+  const res = await this.db.read('SELECT COUNT(*) AS cnt FROM users_sessions WHERE session = ?', [sessionID]);
   if (res[0].cnt === 0) return false;
   await this.db.write('UPDATE users_sessions SET last = NOW() WHERE session = ?', [sessionID]);
   return true;
  }
 
  async getUserBySession(sessionID) {
-  const res = await this.db.query('SELECT id_users FROM users_sessions WHERE session = ?', [sessionID]);
+  const res = await this.db.read('SELECT id_users FROM users_sessions WHERE session = ?', [sessionID]);
   console.log(res);
-  console.log(res.length);
+  if (res.length === 0) return false;
+  else return res;
  }
 
  async login(tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm, tg_query, tg_time) {
