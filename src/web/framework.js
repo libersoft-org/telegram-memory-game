@@ -7,7 +7,7 @@ class Framework {
  }
 
  async getAPI(name, body = {}) {
-  body.user_id = 0; // REPLACE WITH SESSION ID
+  body.user_id = 1; // TODO: REPLACE WITH SESSION ID
   const res = await fetch(this.pathAPI + name, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },

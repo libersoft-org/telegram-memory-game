@@ -26,6 +26,17 @@ class Data {
   Common.addLog('User with tg_ID: ' + tg_id + ' logged in.');
   await this.db.write('INSERT INTO users_logins(id_users, tg_query, tg_time) VALUES (?, ?, ?)', [res2[0].id, tg_query, tg_time]);
  }
+
+ async getScore(id) {
+  const res = await this.db.read('SELECT score FROM users WHERE id = ?', [id]);
+  return res;
+ }
+
+ async setScore(id, points) {
+  const res = getScore(id);
+  console.log(res);
+  console.log('ADD: ' + points);
+ }
 }
 
 module.exports = Data;

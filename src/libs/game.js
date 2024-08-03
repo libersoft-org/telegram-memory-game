@@ -42,13 +42,18 @@ class Game {
   if (this.cards[cardsToFlip[0]].image == this.cards[cardsToFlip[1]].image) {
    this.cards[cardsToFlip[0]].found = true;
    this.cards[cardsToFlip[1]].found = true;
-   this.score += 5;
+   this.score += 10;
   } else this.score--;
   let result = [];
   result.push({ id: cardsToFlip[0], image: this.cards[cardsToFlip[0]].image });
   result.push({ id: cardsToFlip[1], image: this.cards[cardsToFlip[1]].image });
   this.unlock();
   return result;
+ }
+
+ isGameFinished() {
+  for (const c of this.cards) if (!c.found) return false;
+  return true;
  }
 
  lock() {

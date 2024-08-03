@@ -40,7 +40,6 @@ async function getGamePage() {
  if (checkErrors(res)) return;
  await dealCards(5, 4);
  setScoreGame(res.data.score);
- console.log(res.data.cards);
  for (let c of res.data.cards) {
   let elCard = f.qs('#card-' + c.id + ' .inner');
   elCard.querySelector('.front img').src = 'img/cards/' + c.image + '.svg';
@@ -101,7 +100,6 @@ async function markCard(cardElem) {
   if (markedCards.length == 2) {
    const res = await f.getAPI('flip_cards', { cards: markedCards });
    if (checkErrors(res)) return;
-   console.log(res);
    for (card of res.data.cards) {
     let elCard = f.qs('#card-' + card.id + ' .inner');
     elCard.querySelector('.front img').src = 'img/cards/' + card.image + '.svg';
@@ -118,6 +116,10 @@ async function markCard(cardElem) {
     }, 2000);
    }
    setScoreGame(res.data.score);
+   if (res.data.finished) {
+    alert('Game finished!');
+    getScore();
+   }
    markedCards = [];
   }
  }

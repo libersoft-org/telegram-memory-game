@@ -5,7 +5,6 @@ const Game = require('./game.js');
 
 class API {
  constructor() {
-  /* one game per user */
   this.games = {};
   this.data = new Data();
   this.apiMethods = {
@@ -66,7 +65,7 @@ class API {
   return { error: 0, data: { score: game.score, cards: game.getFound() } };
  }
 
- flipCards(p) {
+ async flipCards(p) {
   const game = this.getGameObject(p.user_id);
   const res = game.flipCards(p.cards);
   switch (res) {
@@ -75,12 +74,15 @@ class API {
    case 2:
     return { error: 2, message: 'Card already found' };
    default:
-    return { error: 0, data: { cards: res, score: game.score } };
+    const finished = game.isGameFinished();
+    if (finished && game.score > 0) await data.setScore(p.user_id, game.score);
+    return { error: 0, data: { cards: res, score: game.score, finished: finished } };
   }
  }
 
  async getScore(p) {
   // TODO: TOTAL SCORE FROM DATABASE
+  this.data.getScore(p.user_id);
   return { error: 0, data: { score: 123456 } };
  }
 }
