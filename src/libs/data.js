@@ -17,7 +17,7 @@ class Data {
    await this.db.write('CREATE TABLE IF NOT EXISTS users_logins (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, tg_query VARCHAR(128) NULL, tg_time INTEGER NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
    await this.db.write('CREATE TABLE IF NOT EXISTS users_games (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, score INTEGER NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
    await this.db.write('CREATE TABLE IF NOT EXISTS users_sessions (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, session VARCHAR(255) NOT NULL UNIQUE, last TIMESTAMP DEFAULT CURRENT_TIMESTAMP, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
-   await this.db.write('CREATE TABLE IF NOT EXISTS users_transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, amount VARCHAR(255) NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
+   await this.db.write('CREATE TABLE IF NOT EXISTS users_transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, amount INT NOT NULL, description VARCHAR(255) NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
   } catch (ex) {
    Common.addLog(ex, 2);
    process.exit(1);
