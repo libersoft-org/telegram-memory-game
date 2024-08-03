@@ -84,16 +84,14 @@ class API {
   console.log(p.session);
   const res = await this.getUserBySession(p.session);
   console.log(res);
+  if (!userID) return { error: 900, message: 'Session expired' };
 
   //const res = await this.data.getScore(p.user_id);
   //return { error: 0, data: { score: res[0].score } };
  }
 
  async getUserBySession(session) {
-  const userID = await this.data.getUserBySession(session);
-  // TODO: if !userID (session doesn't exist), then login again and give user his new session ID, then return userID
-  console.log('EXPIROVALA SESSION, INFORMUJU UZIVATELE');
-  if (!userID) return { error: 900, message: 'Session expired' };
+  return await this.data.getUserBySession(session);
  }
 }
 
