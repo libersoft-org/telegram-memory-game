@@ -13,7 +13,7 @@ async function login(data) {
  const res = await f.getAPI('login', { data: data });
  if (await checkErrors(res)) return;
  localStorage.setItem('data', JSON.stringify(res.data.telegram));
- localStorage.setItem('session', JSON.stringify(res.data.session));
+ localStorage.setItem('session', res.data.session);
 }
 
 async function getMainPage() {
