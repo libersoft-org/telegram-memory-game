@@ -75,7 +75,7 @@ class API {
     return { error: 2, message: 'Card already found' };
    default:
     const finished = game.isGameFinished();
-    if (finished && game.score > 0) await data.setScore(p.user_id, game.score);
+    if (finished && game.score > 0) await this.data.setScore(p.user_id, game.score);
     return { error: 0, data: { cards: res, score: game.score, finished: finished } };
   }
  }
