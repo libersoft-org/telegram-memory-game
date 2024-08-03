@@ -4,12 +4,12 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-- Backend + frontend: Add sessions (from LiberShare)
 - Backend: Store score for each user (each finished game score will be stored in table + overall score for user)
 - Backend: Load total score from database
 - Backend: When the game ends and user has a positive score, add it to total score
 - Frontend: Refresh total score when the game ends
 - Backend: Show high score table (coins + number of finished games)
+- Backend + frontend: Add sessions (from LiberShare)
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
