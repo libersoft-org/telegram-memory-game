@@ -2,13 +2,15 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-- Store score for each user (each finished game score will be stored in table + overall score for user)
-- Show high score table (coins + number of finished games)
-- Game management per user (start, cancel, resume, new)
+- Frontend: flip cards
+- Backend + frontend: Add sessions (from LiberShare)
+- Backend: Store score for each user (each finished game score will be stored in table + overall score for user)
+- Backend: Show high score table (coins + number of finished games)
+- Backend + frontend - Game management per user (new, resume)
+- Frontend: Connect TON wallet (+ reward user for that)
+- Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
+- Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Create a "screenshot.webp" with an in-game image
-- Connect TON wallet
-- Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
-- Add users, who have not started the game yet, but opened bot, to database too?
 
 # Future versions
 - Daily rewards
