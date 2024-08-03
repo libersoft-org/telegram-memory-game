@@ -46,7 +46,8 @@ class API {
  }
 
  resetGame(p) {
-  this.resetGameObject(p.user_id);
+  const game = this.getGameObject(p.user_id);
+  game.reset();
   return {
    error: 0,
    data: {
@@ -57,80 +58,25 @@ class API {
 
  getGameObject(user_id) {
   if (!this.games[user_id]) this.games[user_id] = new Game();
-  console.log(this.games[user_id]);
-  if (this.games[user_id].cards == []) this.resetGameObject(user_id);
-  console.log(this.games[user_id]);
   return this.games[user_id];
- }
-
- resetGameObject(user_id) {
-  let game = this.getGameObject(user_id);
-  game.lock();
-  game.score = 0;
-  const num_images = 10;
-  game.cards = [];
-  for (let i = 0; i < num_images; i++) {
-   for (let j = 0; j < 2; j++) game.cards.push({ image: i, found: false });
-  }
-  game.cards = this.shuffle(game.cards);
-  game.unlock();
- }
-
- shuffle(array) {
-  let curID = array.length,
-   rndID;
-  while (curID != 0) {
-   rndID = Math.floor(Math.random() * curID);
-   curID--;
-   [array[curID], array[rndID]] = [array[rndID], array[curID]];
-  }
-  return array;
  }
 
  getGame(p) {
   const game = this.getGameObject(p.user_id);
-  game.lock();
-  const found = [];
-  for (let c of game.cards) {
-   if (c.found) {
-    found.push({ id: c.id, image: c.image });
-   }
-  }
-  game.unlock();
-  return { error: 0, data: { score: game.score, cards: found } };
+  return { error: 0, data: { score: game.score, cards: game.getFound() } };
  }
 
  flipCards(p) {
-  let game = this.getGameObject(p.user_id);
-  if (game.cards.length == 0) return { error: 1, message: 'No game started' };
-  game.lock();
-  let cards = p.cards;
-  if (cards.length !== 2) return { error: 2, message: 'Invalid number of cards' };
-  let board = game.cards;
-  if (board[cards[0]].found || board[cards[1]].found) return { error: 3, message: 'Card already found' };
-  if (board[cards[0]].image == board[cards[1]].image) {
-   board[cards[0]].found = true;
-   board[cards[1]].found = true;
-   game.score += 5;
-  } else game.score--;
-  let result = [];
-  result.push({ id: cards[0], image: board[cards[0]].image });
-  result.push({ id: cards[1], image: board[cards[1]].image });
-  game.unlock();
-  return {
-   error: 0,
-   data: { cards: result, score: game.score }
-  };
- }
-
- getNumFlipped(cards) {
-  // NOT USED?
-  return getFlipped(cards).length;
- }
-
- getFlipped(cards) {
-  // NOT USED IF getNumFlipped NOT USED?
-  return cards.filter(card => card.state === FLIPPED);
+  const game = this.getGameObject(p.user_id);
+  const res = game.flipCards(p.cards);
+  switch (res) {
+   case 1:
+    return { error: 1, message: 'Invalid number of cards' };
+   case 2:
+    return { error: 2, message: 'Card already found' };
+   default:
+    return { error: 0, data: { cards: res, score: game.score } };
+  }
  }
 
  async getScore(p) {
