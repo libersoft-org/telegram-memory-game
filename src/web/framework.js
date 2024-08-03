@@ -7,7 +7,7 @@ class Framework {
  }
 
  async getAPI(name, body = {}) {
-  body.user_id = 0;
+  body.user_id = 0; // REPLACE WITH SESSION ID
   const res = await fetch(this.pathAPI + name, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
@@ -19,6 +19,7 @@ class Framework {
   }
   const res_json = await res.json();
   if (res_json.error) {
+   // TODO: ADD CONDITION - IF ERROR === 900 - INVALID SESSION - RUN AUTH
    console.error('API error: ', res_json);
   }
   return res_json;

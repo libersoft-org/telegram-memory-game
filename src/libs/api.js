@@ -124,17 +124,14 @@ class API {
    board[cards[0]].found = true;
    board[cards[1]].found = true;
    game.score += 5;
-  } else {
-   game.score -= 1;
-  }
-  let result = {};
-  result[cards[0]] = { found: board[cards[0]].found, image: board[cards[0]].image };
-  result[cards[1]] = { found: board[cards[1]].found, image: board[cards[1]].image };
+  } else game.score -= 1;
+  let result = [];
+  result.push({ id: cards[0], image: board[cards[0]].image });
+  result.push({ id: cards[1], image: board[cards[1]].image });
   game.unlock();
   return {
-   result: {
-    cards: result
-   }
+   error: 0,
+   data: { cards: result }
   };
  }
 }

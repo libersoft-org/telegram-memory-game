@@ -72,7 +72,7 @@ class App {
   } else {
    let settings = {
     web: {
-     name: 'Telegram Memory Game',
+     name: 'Memory Game',
      standalone: true,
      port: 80,
      socket_path: '/run/memory.sock'

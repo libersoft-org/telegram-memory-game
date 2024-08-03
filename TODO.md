@@ -19,6 +19,7 @@
 
 # Questions
 - If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
+- What if game stays in locked state?
 
 # Future versions
 - Daily rewards

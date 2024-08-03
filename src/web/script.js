@@ -4,27 +4,14 @@ let markedCards = [];
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  window.Telegram.WebApp.expand();
- await auth(Telegram.WebApp.initData);
+ if (!localStorage.getItem('session')) await auth(Telegram.WebApp.initData);
 });
 
 async function auth(data) {
- console.log('telegram auth data:', data);
  const res = await f.getAPI('login', { data: data });
- let html = '';
- if (res && res.hasOwnProperty('error')) {
-  switch (res.error) {
-   case 0:
-    localStorage.setItem('data', JSON.stringify(res.data));
-    await getMainPage();
-    break;
-   default:
-    html = f.translate(await f.getFileContent('html/login-error.html'), { '{ERROR}': res.message ? res.message : 'Unknown' });
-    f.qs('#splash .loader').outerHTML = html;
-  }
- } else {
-  html = await f.getFileContent('html/login-unrecognized.html');
-  f.qs('#splash .loader').outerHTML = html;
- }
+ if (checkErrors(res)) return;
+ localStorage.setItem('data', JSON.stringify(res.data));
+ await getMainPage();
 }
 
 async function getMainPage() {
@@ -40,9 +27,13 @@ async function getMenuPage() {
 }
 
 async function getScore() {
- const res = await f.getAPI('get_game').result;
- if (!res) return;
+ const res = await f.getAPI('get_score');
+ if (checkErrors(res)) return;
  f.qs('#navbar .score .number').innerHTML = res.score.toLocaleString();
+}
+
+async function getGame() {
+ const res = await f.getAPI('new_game');
 }
 
 async function getGamePage() {
@@ -78,9 +69,7 @@ async function dealCards(x, y) {
  let html = '';
  for (let i = 1; i <= y; i++) {
   for (let j = 1; j <= x; j++) {
-   html += f.translate(cardTemp, {
-    '{ID}': x * (i - 1) + j
-   });
+   html += f.translate(cardTemp, { '{ID}': x * (i - 1) + j });
   }
  }
  f.qs('#cards').innerHTML = html;
@@ -111,15 +100,18 @@ function flipCard(cardElem) {
 
 async function cancelGame() {
  const res = await f.getAPI('cancel_game');
- if (res && res.hasOwnProperty('error')) {
-  switch (res.error) {
-   case 0:
-    getMainPage();
-    break;
-   default:
-    html = alert('Error: ' + (res.message ? res.message : 'Unknown'));
-  }
- } else {
-  alert('Unrecognized response from server');
+ if (checkErrors(res)) return;
+ getMainPage();
+}
+
+function checkErrors(res) {
+ if (!res || !res.hasOwnProperty('error')) {
+  alert('Error: Unknown response from server');
+  return true;
  }
+ if (res.error !== 0) {
+  alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
+  return true;
+ }
+ return false;
 }
