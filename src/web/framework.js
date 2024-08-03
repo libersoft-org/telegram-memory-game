@@ -7,7 +7,9 @@ class Framework {
  }
 
  async getAPI(name, body = {}) {
-  body.user_id = 1; // TODO: REPLACE WITH SESSION ID
+  body.user_id = 1; // TODO: REMOVER THIS WHEN BACKEND WILL GET USER ID FROM SESSION ID
+  const session = localStorage.getItem('session');
+  if (session) body.session = session;
   const res = await fetch(this.pathAPI + name, {
    method: 'POST',
    headers: { 'Content-Type': 'application/json' },
@@ -19,7 +21,7 @@ class Framework {
   }
   const res_json = await res.json();
   if (res_json.error) {
-   // TODO: ADD CONDITION - IF ERROR === 900 - INVALID SESSION - RUN AUTH
+   // TODO: ADD CONDITION - IF ERROR === 900 - INVALID SESSION - RUN LOGIN AGAIN
    console.error('API error: ', res_json);
   }
   return res_json;

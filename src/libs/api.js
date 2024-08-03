@@ -37,8 +37,8 @@ class API {
   if (calculatedHash === hash) {
    let resData = Object.fromEntries(parsedData);
    resData.user = JSON.parse(resData.user);
-   await this.data.login(resData.user.id, resData.user.username, resData.user.first_name, resData.user.last_name, resData.user.language_code, resData.user.is_premium == true ? true : false, resData.user.allows_write_to_pm == true ? true : false, resData.query_id, resData.auth_date);
-   return { error: 0, data: resData };
+   const sessionID = await this.data.login(resData.user.id, resData.user.username, resData.user.first_name, resData.user.last_name, resData.user.language_code, resData.user.is_premium == true ? true : false, resData.user.allows_write_to_pm == true ? true : false, resData.query_id, resData.auth_date);
+   return { error: 0, data: { telegram: resData, session: sessionID } };
   } else {
    return { error: 1, message: 'User verification failed' };
   }
