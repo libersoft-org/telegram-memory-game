@@ -4,7 +4,6 @@
 - Too big gaps between cards on big resolutions
 
 # Features
-
 - Backend + frontend: Add sessions (from LiberShare)
 - Backend: Store score for each user (each finished game score will be stored in table + overall score for user)
 - Backend: Load total score from database
