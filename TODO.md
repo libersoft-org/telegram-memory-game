@@ -1,6 +1,7 @@
 # Bugs
 - Backend: Sometimes the game stays in locked state and server has to be restarted
 - Backend: Bot is sending the same message twice
+- Backend: Data.js is constructed twice - from api.js and app.js, thus session garbage collector is running twice at the same time
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: Too big gaps between cards on big resolutions
 
