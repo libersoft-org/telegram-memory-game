@@ -4,7 +4,6 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
-- Frontend: Add icon to navbar for "My game results" and "My transactions"
 - Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Connect TON wallet (+ reward user for that)
 - Frontend: Add Google Analytics

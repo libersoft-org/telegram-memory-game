@@ -65,7 +65,7 @@ async function getResultsPage() {
  let rows_html = '';
  for (r of res.data.results) {
   rows_html += f.translate(row_html, {
-   '{AMOUNT}': r.amount,
+   '{AMOUNT}': r.amount > 0 ? '+' + r.amount : r.amount,
    '{DATE}': new Date(r.created + ' UTC').toLocaleString()
   });
  }
@@ -81,7 +81,7 @@ async function getTransactionsPage() {
  let rows_html = '';
  for (t of res.data.transactions) {
   rows_html += f.translate(row_html, {
-   '{AMOUNT}': t.amount,
+   '{AMOUNT}': t.amount > 0 ? '+' + t.amount : t.amount,
    '{DESCRIPTION}': t.description,
    '{DATE}': new Date(t.created + ' UTC').toLocaleString()
   });
