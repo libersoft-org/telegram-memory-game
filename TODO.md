@@ -6,8 +6,6 @@
 # Features
 - Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Add icon to navbar for "My game results" and "My transactions"
-- Backend + frontend: Add number of finished games for each user in "My game results"
-- Backend + frontend: Add number of finished games in high score table
 - Frontend: Connect TON wallet (+ reward user for that)
 - Frontend: Add Google Analytics
 - Create a "screenshot.webp" with an in-game image
@@ -18,6 +16,8 @@
 - Allow non-Telegram users to play the game (without total score, wallet, user info etc.)?
 
 # Future versions
+- Add number of finished games for each user in "My game results"
+- Add number of finished games in high score table
 - Change alerts to modal window
 - API request to send mass message from bot to all users (should be allowed to admin only)
 - Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it) - also update them regularly
