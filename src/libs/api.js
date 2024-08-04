@@ -7,6 +7,10 @@ class API {
  constructor() {
   this.games = {};
   this.data = new Data();
+  setInterval(async () => {
+   Common.addLog('Deleting old sessions ...');
+   await this.data.delOldSessions();
+  }, Common.settings.other.sessions_update * 1000);
   this.apiMethods = {
    login: this.login,
    reset_game: this.resetGame,
@@ -81,11 +85,7 @@ class API {
  }
 
  async getScore(p) {
-  console.log(p.session);
   const user_id = await this.getUserBySession(p.session);
-  console.log('AAA');
-  console.log(user_id);
-  console.log('BBB');
   if (!user_id) return { error: 900, message: 'Session expired' };
   const res = await this.data.getScore(user_id[0].id_users);
   return { error: 0, data: { score: res[0].score } };

@@ -145,8 +145,8 @@ async function checkErrors(res) {
  }
  if (res.error !== 0) {
   if (res.error === 900) {
-   console.log('ANO, NASTAL SESSION EXPIRED A LOGUJU SE ZNOVU');
    await login(Telegram.WebApp.initData);
+   alert('Your session has expired. Please refresh this page.');
    return false;
   } else {
    alert('Error from server: ' + (res.message ? res.message : 'Unknown'));

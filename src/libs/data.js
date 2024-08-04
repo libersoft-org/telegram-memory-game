@@ -5,11 +5,6 @@ const Common = require('./common.js').Common;
 class Data {
  constructor() {
   this.db = new Database();
-  setInterval(async () => {
-   // TODO - move this interval to api.js (or app.js) and leave here just SQL command.
-   Common.addLog('Deleting old sessions ...');
-   await this.db.write('DELETE FROM users_sessions WHERE last < DATETIME("now", ?)', [`-${Common.settings.other.sessions_life} SECONDS`]);
-  }, Common.settings.other.sessions_update * 1000);
  }
 
  async createDB() {
@@ -30,6 +25,9 @@ class Data {
   if (res[0].cnt === 0) return false;
   await this.db.write('UPDATE users_sessions SET last = NOW() WHERE session = ?', [sessionID]);
   return true;
+ }
+ async delOldSessions() {
+  await this.db.write('DELETE FROM users_sessions WHERE last < DATETIME("now", ?)', [`-${Common.settings.other.sessions_life} SECONDS`]);
  }
 
  async getUserBySession(sessionID) {

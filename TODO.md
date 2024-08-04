@@ -1,5 +1,4 @@
 # Bugs
-- Backend: Data.js is constructed twice - from api.js and app.js, thus session garbage collector is running twice at the same time
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: Too big gaps between cards on big resolutions
 
@@ -14,6 +13,7 @@
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Backend + frontend: API request to send mass message from bot to all users (should be allowed to admin only)
+- Allow non-Telegram users to play the game (without total score, wallet, user info etc.)
 - Create a "screenshot.webp" with an in-game image
 
 # Questions
