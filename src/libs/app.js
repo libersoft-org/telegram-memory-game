@@ -78,8 +78,8 @@ class App {
      socket_path: '/run/memory.sock'
     },
     other: {
-     sessions_life: 86400,
-     sessions_update: 900,
+     sessions_life: 2592000,
+     sessions_update: 21600,
      db_file: 'memory.db',
      bot_run: true,
      bot_token: 'YOUR_BOT_TOKEN',

@@ -4,7 +4,7 @@
 
 # Features
 - Backend: data.js: finish setScore() function
-- Backend + frontend: Add sessions (from LiberShare) - already in data.js - check if requests will move "last" time to current time
+- Backend + frontend: Prolong sessions (set "last" column to current time)
 - Backend + frontend: Test if the game can determine that the game is finished (already implemented, just test) + if game score is added to total score
 - Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
 - Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging

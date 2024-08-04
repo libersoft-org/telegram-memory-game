@@ -49,8 +49,7 @@ class Database {
   this.open();
   let res = false;
   try {
-   await this.db.run(query, ...params);
-   res = true;
+   res = await this.db.run(query, ...params);
   } catch (ex) {
    Common.addLog(ex, 2);
   }

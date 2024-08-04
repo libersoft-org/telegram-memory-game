@@ -27,7 +27,8 @@ class Data {
   return true;
  }
  async delOldSessions() {
-  await this.db.write('DELETE FROM users_sessions WHERE last < DATETIME("now", ?)', [`-${Common.settings.other.sessions_life} SECONDS`]);
+  const res = await this.db.write('DELETE FROM users_sessions WHERE last <= DATETIME("now", ?)', [`-${Common.settings.other.sessions_life} SECONDS`]);
+  return res;
  }
 
  async getUserBySession(sessionID) {

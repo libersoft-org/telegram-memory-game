@@ -8,8 +8,8 @@ class API {
   this.games = {};
   this.data = new Data();
   setInterval(async () => {
-   Common.addLog('Deleting old sessions ...');
-   await this.data.delOldSessions();
+   const res = await this.data.delOldSessions();
+   Common.addLog('Expired sessions cleaner: ' + res.changes + ' sessions deleted.');
   }, Common.settings.other.sessions_update * 1000);
   this.apiMethods = {
    login: this.login,
