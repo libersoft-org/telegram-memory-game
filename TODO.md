@@ -4,19 +4,20 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
-- Frontend: Connect TON wallet (+ reward user for that)
+- Nothing
 
 # Questions
-- If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Allow non-Telegram users to play the game (without total score, wallet, user info etc.)?
 
 # Future versions
+- Frontend: Connect TON wallet (+ reward user for that)
 - Add number of finished games for each user in "My game results"
 - Add number of finished games in high score table
 - Change alerts to modal window
 - API request to send mass message from bot to all users (should be allowed to admin only)
-- Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it) - also update them regularly
+- Load user photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it) - also update them regularly
+- Update user info + photos in bulk by bot run repeatedly after some time
 - Show users' photos in high score and in profile
 - Referral invites (rewarded by score coins)
 - Tasks (Join announcement channel, join chat group etc.)
