@@ -20,37 +20,36 @@ class Data {
   }
  }
 
- async setSession(sessionID) {
-  const res = await this.db.read('SELECT COUNT(*) AS cnt FROM users_sessions WHERE session = ?', [sessionID]);
-  if (res[0].cnt === 0) return false;
-  await this.db.write('UPDATE users_sessions SET last = NOW() WHERE session = ?', [sessionID]);
-  return true;
- }
  async delOldSessions() {
   const res = await this.db.write('DELETE FROM users_sessions WHERE last <= DATETIME("now", ?)', [`-${Common.settings.other.sessions_life} SECONDS`]);
   return res;
  }
 
+ async checkSession(sessionID) {
+  const res = await this.db.read('SELECT COUNT(*) AS cnt FROM users_sessions WHERE session = ?', [sessionID]);
+  if (res[0].cnt === 0) return false;
+  await this.db.write('UPDATE users_sessions SET last = CURRENT_TIMESTAMP WHERE session = ?', [sessionID]);
+  return true;
+ }
+
  async getUserBySession(sessionID) {
   const res = await this.db.read('SELECT id_users FROM users_sessions WHERE session = ?', [sessionID]);
-  console.log(res);
   if (res.length === 0) return false;
-  else return res;
+  else return res[0].id_users;
  }
 
  async login(tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm, tg_query, tg_time) {
   const res = await this.db.read('SELECT id, tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm FROM users WHERE tg_id = ?', [tg_id]);
   if (res.length === 0) {
-   Common.addLog('Adding new user with Telegram ID: ' + tg_id + ' to database.');
    await this.db.write('INSERT INTO users (tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm) VALUES (?, ?, ?, ?, ?, ?, ?)', [tg_id, tg_username, tg_firstname, tg_lastname, tg_language, tg_premium, tg_pm]);
+   Common.addLog('New user with Telegram ID: ' + tg_id + ' added to database.');
   }
   const res2 = await this.db.read('SELECT id FROM users WHERE tg_id = ?', [tg_id]);
-  Common.addLog('User with Telegram ID: ' + tg_id + ' logged in.');
   await this.db.write('INSERT INTO users_logins(id_users, tg_query, tg_time) VALUES (?, ?, ?)', [res2[0].id, tg_query, tg_time]);
-
+  Common.addLog('User with Telegram ID: ' + tg_id + ' logged in.');
   const sessionID = crypto.randomBytes(16).toString('hex') + Date.now().toString(16);
-  Common.addLog('Adding session: ' + sessionID + ' for Telegram user: ' + tg_id + ' to database...');
   await this.db.write('INSERT INTO users_sessions (id_users, session) VALUES (?, ?)', [res2[0].id, sessionID]);
+  Common.addLog('Session: ' + sessionID + ' for Telegram user: ' + tg_id + ' added to database.');
   return sessionID;
  }
 

@@ -144,13 +144,18 @@ async function checkErrors(res) {
   return true;
  }
  if (res.error !== 0) {
-  if (res.error === 900) {
-   await login(Telegram.WebApp.initData);
-   alert('Your session has expired. Please refresh this page.');
-   return false;
-  } else {
-   alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
-   return true;
+  switch (res.error) {
+   case 900:
+    await login(Telegram.WebApp.initData);
+    alert('Your session has expired. Please refresh this page.');
+    return false;
+   case 901:
+    await login(Telegram.WebApp.initData);
+    alert('Unknown account. Please refresh this page.');
+    return false;
+   default:
+    alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
+    return true;
   }
  }
  return false;

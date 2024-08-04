@@ -85,14 +85,23 @@ class API {
  }
 
  async getScore(p) {
+  if (!this.checkSession(p.session)) return { error: 900, message: 'Session expired' };
   const user_id = await this.getUserBySession(p.session);
-  if (!user_id) return { error: 900, message: 'Session expired' };
+  if (!user_id) return { error: 901, message: 'Cannot find user in database' };
+
   const res = await this.data.getScore(user_id[0].id_users);
   return { error: 0, data: { score: res[0].score } };
  }
 
  async getUserBySession(session) {
-  return await this.data.getUserBySession(session);
+  const res = await this.data.getUserBySession(session);
+  console.log(res);
+ }
+
+ async checkSession(session) {
+  const res = await this.data.checkSession(session);
+  console.log(res);
+  return res;
  }
 }
 

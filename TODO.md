@@ -3,8 +3,8 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
+- Backend: Prolong sessions (set "last" column to current time)
 - Backend: data.js: finish setScore() function
-- Backend + frontend: Prolong sessions (set "last" column to current time)
 - Backend + frontend: Test if the game can determine that the game is finished (already implemented, just test) + if game score is added to total score
 - Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
 - Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging
@@ -13,6 +13,7 @@
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Backend + frontend: API request to send mass message from bot to all users (should be allowed to admin only)
+- Frontend: add Google Analytics
 - Allow non-Telegram users to play the game (without total score, wallet, user info etc.)
 - Create a "screenshot.webp" with an in-game image
 
