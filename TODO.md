@@ -3,15 +3,16 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
-- Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
+- Frontend: Add icon to navbar for "My game results" and "My transactions"
 - Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging
-- Backend - fill users_transactions table with points from games
+- Backend + frontend: Fill users_transactions table with points from games
+- Backend + frontend: Show high score table (coins + number of finished games) - with lazy loader and paging
 - Frontend: Connect TON wallet (+ reward user for that)
 - Backend: Load users' photos by Telegram Bot API in game (Telegram Mini Web App doesn't allow it)
 - Backend: Add users, who have not started the game yet, but opened bot, to database too?
 - Backend + frontend: API request to send mass message from bot to all users (should be allowed to admin only)
 - Frontend: Change alerts to modal
-- Frontend: add Google Analytics
+- Frontend: Add Google Analytics
 - Allow non-Telegram users to play the game (without total score, wallet, user info etc.)
 - Create a "screenshot.webp" with an in-game image
 

@@ -30,11 +30,8 @@ async function getMenuPage() {
 
 async function getScore() {
  const res = await f.getAPI('get_score');
- console.log('TEST 2');
  if (await checkErrors(res)) return;
- console.log('TEST 3');
  f.qs('#navbar .score .number').innerHTML = res.data.score.toLocaleString();
- console.log('TEST 4');
 }
 
 async function getGamePage() {
@@ -56,9 +53,30 @@ function setScoreGame(score) {
  f.qs('#score-game').innerHTML = 'Score: ' + score;
 }
 
+async function getResultsPage() {
+ const html = await f.getFileContent('html/results.html');
+ f.qs('#content').innerHTML = html;
+}
+
+async function getTransactionsPage() {
+ const html = await f.getFileContent('html/transactions.html');
+ f.qs('#content').innerHTML = html;
+}
+
 async function getHighScorePage() {
  const html = await f.getFileContent('html/highscore.html');
  f.qs('#content').innerHTML = html;
+
+ const res = await f.getAPI('get_highscore', { offset: 0, count: 10 });
+ if (await checkErrors(res)) return;
+ fs.qs('#highscore tbody');
+
+ for (let c of res.data.cards) {
+  let elCard = f.qs('#card-' + c.id + ' .inner');
+  elCard.querySelector('.front img').src = 'img/cards/' + c.image + '.svg';
+  elCard.classList.toggle('flipped');
+  canPlay = true;
+ }
 }
 
 async function getProfilePage() {
