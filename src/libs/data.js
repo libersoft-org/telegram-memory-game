@@ -11,7 +11,7 @@ class Data {
   try {
    await this.db.write('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, tg_id INTEGER NOT NULL UNIQUE, tg_username VARCHAR(128) NULL, tg_firstname VARCHAR(128) NULL, tg_lastname VARCHAR(128) NULL, tg_language VARCHAR(2) NULL, tg_premium BOOL NULL, tg_pm BOOL NULL, score INTEGER NOT NULL DEFAULT 0, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP)');
    await this.db.write('CREATE TABLE IF NOT EXISTS users_logins (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, tg_query VARCHAR(128) NULL, tg_time INTEGER NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
-   await this.db.write('CREATE TABLE IF NOT EXISTS users_games (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, score INTEGER NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
+   await this.db.write('CREATE TABLE IF NOT EXISTS users_results (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, amount INTEGER NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
    await this.db.write('CREATE TABLE IF NOT EXISTS users_sessions (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, session VARCHAR(255) NOT NULL UNIQUE, last TIMESTAMP DEFAULT CURRENT_TIMESTAMP, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
    await this.db.write('CREATE TABLE IF NOT EXISTS users_transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, id_users INTEGER, amount INT NOT NULL, description VARCHAR(255) NOT NULL, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_users) REFERENCES users(id))');
   } catch (ex) {
@@ -58,8 +58,16 @@ class Data {
   return res;
  }
 
- async setScore(id, points) {
-  await this.db.write('UPDATE users SET score = score + ? WHERE id = ?', [points, id]);
+ async setResult(id, amount) {
+  await this.db.write('INSERT INTO users_results (id_users, amount) VALUES (?, ?)', [id, amount]);
+ }
+
+ async setTransaction(id, amount, description) {
+  await this.db.write('INSERT INTO users_transactions (id_users, amount, description) VALUES (?, ?, ?)', [id, amount, description]);
+ }
+
+ async setScore(id, amount) {
+  await this.db.write('UPDATE users SET score = score + ? WHERE id = ?', [amount, id]);
  }
 }
 
