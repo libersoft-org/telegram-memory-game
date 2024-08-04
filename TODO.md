@@ -7,7 +7,6 @@
 - Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Add Google Analytics
 - Frontend: Connect TON wallet (+ reward user for that)
-- Create a "screenshot.webp" with an in-game image
 
 # Questions
 - If we use almost infinite sessions and almost never logins, how will we update users' info in database? By bot (incl. loading photos)?
