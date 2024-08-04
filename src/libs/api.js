@@ -12,25 +12,33 @@ class API {
    Common.addLog('Expired sessions cleaner: ' + res.changes + ' sessions deleted.');
   }, Common.settings.other.sessions_update * 1000);
   this.apiMethods = {
-   login: this.login,
-   reset_game: this.resetGame,
-   get_game: this.getGame,
-   flip_cards: this.flipCards,
-   get_score: this.getScore,
-   get_highscore: this.getHighScore
+   login: { method: this.login, reqSession: false, reqUser: false },
+   reset_game: { method: this.resetGame, reqSession: true, reqUser: true },
+   get_game: { method: this.getGame, reqSession: true, reqUser: true },
+   flip_cards: { method: this.flipCards, reqSession: true, reqUser: true },
+   get_score: { method: this.getScore, reqSession: true, reqUser: true },
+   get_highscore: { method: this.getHighScore, reqSession: false, reqUser: false }
   };
  }
 
  async processAPI(name, params) {
   console.log('API request: ', name);
   console.log('Parameters: ', params);
-  const method = this.apiMethods[name];
-  if (method) return await method.call(this, params);
-  else return { error: 900, message: 'API not found' };
+  const apiMethod = this.apiMethods[name];
+  if (!apiMethod) return { error: 900, message: 'API not found' };
+  if (apiMethod.reqSession) {
+   const res = await this.validateSession(params.session);
+   if (res.error) return res;
+  }
+  if (apiMethod.reqUser) {
+   const res = await this.validateUser(params.session);
+   if (res.error) return res;
+   params.user_id = res;
+  }
+  return await apiMethod.method.call(this, params);
  }
 
  async login(p = {}) {
-  // doesn't require session, doesn't require user_id
   const parsedData = new URLSearchParams(p.data);
   const hash = parsedData.get('hash');
   parsedData.delete('hash');
@@ -51,11 +59,7 @@ class API {
  }
 
  async resetGame(p) {
-  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
-  const user_id = await this.getUserBySession(p.session);
-  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
-
-  const game = this.getGameObject(user_id);
+  const game = this.getGameObject(p.user_id);
   game.reset();
   return {
    error: 0,
@@ -76,11 +80,7 @@ class API {
  }
 
  async flipCards(p) {
-  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
-  const user_id = await this.getUserBySession(p.session);
-  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
-
-  const game = this.getGameObject(user_id);
+  const game = this.getGameObject(p.user_id);
   const res = game.flipCards(p.cards);
   switch (res) {
    case 1:
@@ -89,25 +89,32 @@ class API {
     return { error: 2, message: 'Card already found' };
    default:
     const finished = game.isGameFinished();
-    if (finished && game.score > 0) await this.data.setScore(user_id, game.score);
+    if (finished && game.score > 0) await this.data.setScore(p.user_id, game.score);
     return { error: 0, data: { cards: res, score: game.score, finished: finished } };
   }
  }
 
  async getScore(p) {
-  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
-  const user_id = await this.getUserBySession(p.session);
-  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
-
-  const res = await this.data.getScore(user_id[0].id_users);
+  const res = await this.data.getScore(p.user_id);
   return { error: 0, data: { score: res[0].score } };
  }
 
  async getHighScore(p) {
-  // doesn't require session, doesn't require user_id
   const res = await this.data.getHighScore();
   console.log(res);
   return res;
+ }
+
+ async validateSession(session) {
+  const isValid = await this.checkSession(session);
+  if (!isValid) return { error: 901, message: 'Session expired' };
+  return true;
+ }
+
+ async validateUser(session) {
+  const user_id = await this.getUserBySession(session);
+  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
+  return user_id;
  }
 
  async getUserBySession(session) {
