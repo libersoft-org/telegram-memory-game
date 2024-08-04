@@ -5,8 +5,8 @@
 
 # Features
 - Frontend: Add lazy loader to results, transactions and high score tables
-- Frontend: Connect TON wallet (+ reward user for that)
 - Frontend: Add Google Analytics
+- Frontend: Connect TON wallet (+ reward user for that)
 - Create a "screenshot.webp" with an in-game image
 
 # Questions
