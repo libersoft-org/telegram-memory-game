@@ -4,7 +4,6 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
-- Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Add Google Analytics
 - Frontend: Connect TON wallet (+ reward user for that)
 

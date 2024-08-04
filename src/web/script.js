@@ -1,6 +1,8 @@
 const f = new Framework();
 let markedCards = [];
 let canPlay = true;
+let loading = false;
+let offset = 3;
 
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
@@ -56,53 +58,116 @@ function setScoreGame(score) {
 }
 
 async function getResultsPage() {
+ loading = false;
+ offset = 0;
  const html = await f.getFileContent('html/results.html');
  f.qs('#content').innerHTML = html;
+ window.onscroll = async () => {
+  await getResults(5);
+ };
+ getResults(5);
+}
 
- const res = await f.getAPI('get_results', { count: 10, offset: 0 });
- if (await checkErrors(res)) return;
- const row_html = await f.getFileContent('html/results-row.html');
- let rows_html = '';
- for (r of res.data.results) {
-  rows_html += f.translate(row_html, {
-   '{AMOUNT}': r.amount > 0 ? '+' + r.amount : r.amount,
-   '{DATE}': new Date(r.created + ' UTC').toLocaleString()
-  });
+async function getResults(count = 10) {
+ const loader = f.qs('#content .loader');
+ if (loading || !isElementVisible(loader)) return;
+ loading = true;
+ const res = await f.getAPI('get_results', { count: count, offset: offset });
+ if (res && res.data && res.data.results && res.data.results.length == 0) {
+  loader.remove();
+  loading = false;
+ } else {
+  if (await checkErrors(res)) return;
+  const row_html = await f.getFileContent('html/results-row.html');
+  let rows_html = '';
+  for (r of res.data.results) {
+   rows_html += f.translate(row_html, {
+    '{AMOUNT}': r.amount > 0 ? '+' + r.amount : r.amount,
+    '{DATE}': new Date(r.created + ' UTC').toLocaleString()
+   });
+  }
+  f.qs('#results tbody').innerHTML += rows_html;
  }
- f.qs('#results tbody').innerHTML = rows_html;
+ offset += count;
+ loading = false;
+ if (res.data.results.length == count) getResults(count, offset);
+ else loader.remove();
 }
 
 async function getTransactionsPage() {
+ loading = false;
+ offset = 0;
  const html = await f.getFileContent('html/transactions.html');
  f.qs('#content').innerHTML = html;
- const res = await f.getAPI('get_transactions', { count: 10, offset: 0 });
- if (await checkErrors(res)) return;
- const row_html = await f.getFileContent('html/transactions-row.html');
- let rows_html = '';
- for (t of res.data.transactions) {
-  rows_html += f.translate(row_html, {
-   '{AMOUNT}': t.amount > 0 ? '+' + t.amount : t.amount,
-   '{DESCRIPTION}': t.description,
-   '{DATE}': new Date(t.created + ' UTC').toLocaleString()
-  });
+ window.onscroll = async () => {
+  await getTransactions(10);
+ };
+ getTransactions(10);
+}
+
+async function getTransactions(count = 10) {
+ const loader = f.qs('#content .loader');
+ if (loading || !isElementVisible(loader)) return;
+ loading = true;
+ const res = await f.getAPI('get_transactions', { count: count, offset: offset });
+ if (res && res.data && res.data.transactions && res.data.transactions.length == 0) {
+  loader.remove();
+  loading = false;
+ } else {
+  if (await checkErrors(res)) return;
+  const row_html = await f.getFileContent('html/transactions-row.html');
+  let rows_html = '';
+  for (t of res.data.transactions) {
+   rows_html += f.translate(row_html, {
+    '{AMOUNT}': t.amount > 0 ? '+' + t.amount : t.amount,
+    '{DESCRIPTION}': t.description,
+    '{DATE}': new Date(t.created + ' UTC').toLocaleString()
+   });
+  }
+  f.qs('#transactions tbody').innerHTML += rows_html;
  }
- f.qs('#transactions tbody').innerHTML = rows_html;
+ offset += count;
+ loading = false;
+ if (res.data.transactions.length == count) getTransactions(count, offset);
+ else loader.remove();
 }
 
 async function getHighScorePage() {
+ loading = false;
+ offset = 0;
  const html = await f.getFileContent('html/highscore.html');
  f.qs('#content').innerHTML = html;
- const res = await f.getAPI('get_highscore', { count: 10, offset: 0 });
- if (await checkErrors(res)) return;
- const row_html = await f.getFileContent('html/highscore-row.html');
- let rows_html = '';
- for (h of res.data.highscore) {
-  rows_html += f.translate(row_html, {
-   '{NAME}': h.tg_firstname + ' ' + h.tg_lastname,
-   '{SCORE}': h.score
-  });
+ window.onscroll = async () => {
+  await getHighScore(10);
+ };
+ getHighScore(10);
+}
+
+async function getHighScore(count = 10) {
+ const loader = f.qs('#content .loader');
+ if (loading || !isElementVisible(loader)) return;
+ loading = true;
+ const res = await f.getAPI('get_highscore', { count: count, offset: offset });
+ console.log(res);
+ if (res && res.data && res.data.highscore && res.data.highscore.length == 0) {
+  loader.remove();
+  loading = false;
+ } else {
+  if (await checkErrors(res)) return;
+  const row_html = await f.getFileContent('html/highscore-row.html');
+  let rows_html = '';
+  for (h of res.data.highscore) {
+   rows_html += f.translate(row_html, {
+    '{NAME}': h.tg_firstname + ' ' + h.tg_lastname,
+    '{SCORE}': h.score
+   });
+  }
+  f.qs('#highscore tbody').innerHTML = rows_html;
  }
- f.qs('#highscore tbody').innerHTML = rows_html;
+ offset += count;
+ loading = false;
+ if (res.data.highscore.length == count) getHighScore(count, offset);
+ else loader.remove();
 }
 
 async function getProfilePage() {
@@ -205,4 +270,10 @@ async function checkErrors(res) {
   return state;
  }
  return false;
+}
+
+function isElementVisible(el) {
+ if (!el) return false;
+ let rect = el.getBoundingClientRect();
+ return rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.bottom > 0 && rect.right > 0;
 }
