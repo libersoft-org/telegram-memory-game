@@ -4,8 +4,9 @@
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
-- Frontend: Add lazy loader to results, transactions and high score tables
+- Frontend: In non-Telegram browser the game should not load, but it is loading the menu
 - Frontend: Add icon to navbar for "My game results" and "My transactions"
+- Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Connect TON wallet (+ reward user for that)
 - Frontend: Add Google Analytics
 - Create a "screenshot.webp" with an in-game image
