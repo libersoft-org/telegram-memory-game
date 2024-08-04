@@ -1,8 +1,10 @@
 # Bugs
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
+- Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it doesn't allow me to play ("canPlay" stays in false state)
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
+- Frontend: Add lazy loader to results, transactions and high score tables
 - Frontend: Add icon to navbar for "My game results" and "My transactions"
 - Backend + frontend: Store each game result in DB (even with negative score), show them in table in frontend - with lazy loader and paging
 - Backend + frontend: Fill users_transactions table with points from games

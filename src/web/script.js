@@ -56,27 +56,51 @@ function setScoreGame(score) {
 async function getResultsPage() {
  const html = await f.getFileContent('html/results.html');
  f.qs('#content').innerHTML = html;
+
+ const res = await f.getAPI('get_results', { count: 10, offset: 0 });
+ if (await checkErrors(res)) return;
+ const row_html = await f.getFileContent('html/results-row.html');
+ let rows_html = '';
+ for (r of res.data.results) {
+  rows_html += f.translate(row_html, {
+   '{AMOUNT}': r.amount,
+   '{DATE}': new Date(r.created + ' UTC').toLocaleString()
+  });
+ }
+ f.qs('#results tbody').innerHTML = rows_html;
 }
 
 async function getTransactionsPage() {
  const html = await f.getFileContent('html/transactions.html');
  f.qs('#content').innerHTML = html;
+ const res = await f.getAPI('get_transactions', { count: 10, offset: 0 });
+ if (await checkErrors(res)) return;
+ const row_html = await f.getFileContent('html/transactions-row.html');
+ let rows_html = '';
+ for (t of res.data.transactions) {
+  rows_html += f.translate(row_html, {
+   '{AMOUNT}': t.amount,
+   '{DESCRIPTION}': t.description,
+   '{DATE}': new Date(t.created + ' UTC').toLocaleString()
+  });
+ }
+ f.qs('#transactions tbody').innerHTML = rows_html;
 }
 
 async function getHighScorePage() {
  const html = await f.getFileContent('html/highscore.html');
  f.qs('#content').innerHTML = html;
-
- const res = await f.getAPI('get_highscore', { offset: 0, count: 10 });
+ const res = await f.getAPI('get_highscore', { count: 10, offset: 0 });
  if (await checkErrors(res)) return;
- fs.qs('#highscore tbody');
-
- for (let c of res.data.cards) {
-  let elCard = f.qs('#card-' + c.id + ' .inner');
-  elCard.querySelector('.front img').src = 'img/cards/' + c.image + '.svg';
-  elCard.classList.toggle('flipped');
-  canPlay = true;
+ const row_html = await f.getFileContent('html/highscore-row.html');
+ let rows_html = '';
+ for (h of res.data.highscore) {
+  rows_html += f.translate(row_html, {
+   '{NAME}': h.tg_firstname + ' ' + h.tg_lastname,
+   '{SCORE}': h.score
+  });
  }
+ f.qs('#highscore tbody').innerHTML = rows_html;
 }
 
 async function getProfilePage() {

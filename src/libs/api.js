@@ -17,7 +17,9 @@ class API {
    get_game: { method: this.getGame, reqSession: true, reqUser: true },
    flip_cards: { method: this.flipCards, reqSession: true, reqUser: true },
    get_score: { method: this.getScore, reqSession: true, reqUser: true },
-   get_highscore: { method: this.getHighScore, reqSession: false, reqUser: false }
+   get_highscore: { method: this.getHighScore, reqSession: false, reqUser: false },
+   get_results: { method: this.getResults, reqSession: true, reqUser: true },
+   get_transactions: { method: this.getTransactions, reqSession: true, reqUser: true }
   };
  }
 
@@ -107,8 +109,19 @@ class API {
 
  async getHighScore(p) {
   const res = await this.data.getHighScore();
+  return { error: 0, data: { highscore: res } };
+ }
+
+ async getResults(p) {
+  const res = await this.data.getResults(p.user_id, p.count, p.offset);
   console.log(res);
-  return res;
+  return { error: 0, data: { results: res } };
+ }
+
+ async getTransactions(p) {
+  const res = await this.data.getTransactions(p.user_id, p.count, p.offset);
+  console.log(res);
+  return { error: 0, data: { transactions: res } };
  }
 
  async validateSession(session) {

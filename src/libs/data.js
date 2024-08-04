@@ -54,25 +54,31 @@ class Data {
  }
 
  async getScore(id) {
-  const res = await this.db.read('SELECT score FROM users WHERE id = ?', [id]);
-  return res;
+  return await this.db.read('SELECT score FROM users WHERE id = ?', [id]);
  }
 
- async getHighScore() {
-  const res = await this.db.read('SELECT tg_firstname, tg_lastname, score FROM users ORDER BY score DESC');
-  return res;
+ async setScore(id, amount) {
+  await this.db.write('UPDATE users SET score = score + ? WHERE id = ?', [amount, id]);
+ }
+
+ async getHighScore(count = 10, offset = 0) {
+  return await this.db.read('SELECT tg_firstname, tg_lastname, score FROM users ORDER BY score DESC LIMIT ? OFFSET ?', [count, offset]);
+ }
+
+ async getResults(id, count = 10, offset = 0) {
+  return await this.db.read('SELECT amount, created FROM users_results WHERE id_users = ? ORDER BY id DESC LIMIT ? OFFSET ?', [id, count, offset]);
  }
 
  async setResult(id, amount) {
   await this.db.write('INSERT INTO users_results (id_users, amount) VALUES (?, ?)', [id, amount]);
  }
 
- async setTransaction(id, amount, description) {
-  await this.db.write('INSERT INTO users_transactions (id_users, amount, description) VALUES (?, ?, ?)', [id, amount, description]);
+ async getTransactions(id, count = 10, offset = 0) {
+  return await this.db.read('SELECT amount, description, created FROM users_transactions WHERE id_users = ? ORDER BY id DESC LIMIT ? OFFSET ?', [id, count, offset]);
  }
 
- async setScore(id, amount) {
-  await this.db.write('UPDATE users SET score = score + ? WHERE id = ?', [amount, id]);
+ async setTransaction(id, amount, description) {
+  await this.db.write('INSERT INTO users_transactions (id_users, amount, description) VALUES (?, ?, ?)', [id, amount, description]);
  }
 }
 

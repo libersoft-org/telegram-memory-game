@@ -18,7 +18,6 @@ class Framework {
    console.error('API error: ', res);
    return null;
   }
-  console.log(res);
   const res_json = await res.json();
   if (res_json.error) console.error('API error: ', res_json);
   return res_json;
