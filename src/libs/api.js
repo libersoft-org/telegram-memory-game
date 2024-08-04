@@ -16,7 +16,8 @@ class API {
    reset_game: this.resetGame,
    get_game: this.getGame,
    flip_cards: this.flipCards,
-   get_score: this.getScore
+   get_score: this.getScore,
+   get_highscore: this.getHighScore
   };
  }
 
@@ -29,6 +30,7 @@ class API {
  }
 
  async login(p = {}) {
+  // doesn't require session, doesn't require user_id
   const parsedData = new URLSearchParams(p.data);
   const hash = parsedData.get('hash');
   parsedData.delete('hash');
@@ -48,8 +50,12 @@ class API {
   }
  }
 
- resetGame(p) {
-  const game = this.getGameObject(p.user_id);
+ async resetGame(p) {
+  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
+  const user_id = await this.getUserBySession(p.session);
+  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
+
+  const game = this.getGameObject(user_id);
   game.reset();
   return {
    error: 0,
@@ -70,7 +76,11 @@ class API {
  }
 
  async flipCards(p) {
-  const game = this.getGameObject(p.user_id);
+  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
+  const user_id = await this.getUserBySession(p.session);
+  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
+
+  const game = this.getGameObject(user_id);
   const res = game.flipCards(p.cards);
   switch (res) {
    case 1:
@@ -79,23 +89,31 @@ class API {
     return { error: 2, message: 'Card already found' };
    default:
     const finished = game.isGameFinished();
-    if (finished && game.score > 0) await this.data.setScore(p.user_id, game.score);
+    if (finished && game.score > 0) await this.data.setScore(user_id, game.score);
     return { error: 0, data: { cards: res, score: game.score, finished: finished } };
   }
  }
 
  async getScore(p) {
-  if (!this.checkSession(p.session)) return { error: 900, message: 'Session expired' };
+  if (!this.checkSession(p.session)) return { error: 901, message: 'Session expired' };
   const user_id = await this.getUserBySession(p.session);
-  if (!user_id) return { error: 901, message: 'Cannot find user in database' };
+  if (!user_id) return { error: 902, message: 'Cannot find user in database' };
 
   const res = await this.data.getScore(user_id[0].id_users);
   return { error: 0, data: { score: res[0].score } };
  }
 
+ async getHighScore(p) {
+  // doesn't require session, doesn't require user_id
+  const res = await this.data.getHighScore();
+  console.log(res);
+  return res;
+ }
+
  async getUserBySession(session) {
   const res = await this.data.getUserBySession(session);
   console.log(res);
+  return res;
  }
 
  async checkSession(session) {
