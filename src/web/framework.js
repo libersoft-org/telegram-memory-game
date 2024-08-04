@@ -7,7 +7,6 @@ class Framework {
  }
 
  async getAPI(name, body = {}) {
-  body.user_id = 1; // TODO: REMOVE THIS WHEN BACKEND WILL GET USER ID FROM SESSION ID
   const session = localStorage.getItem('session');
   if (session) body.session = session;
   const res = await fetch(this.pathAPI + name, {

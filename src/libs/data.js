@@ -59,9 +59,7 @@ class Data {
  }
 
  async setScore(id, points) {
-  const res = this.getScore(id);
-  console.log(res);
-  console.log('ADD: ' + points);
+  await this.db.write('UPDATE users SET score = score + ? WHERE id = ?', [points, id]);
  }
 }
 
