@@ -1,6 +1,6 @@
 # Bugs
-- Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it doesn't allow me to play ("canPlay" stays in false state)
+- Frontend: When I reveal wrong guess cards and quickly click on Back to menu and then Start game, it shows these cards again
 - Frontend: Too big gaps between cards on big resolutions
 
 # Features
