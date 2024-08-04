@@ -37,12 +37,18 @@ table tr td {
 
 .button {
  padding: 10px;
+ max-width: calc(100% - 20px);
  cursor: pointer;
  font-weight: bold;
+ text-align: center;
  border: 1px solid #000;
  border-radius: 10px;
  background-color: #f0d23c;
  color: #000;
+}
+
+.button.menu {
+ width: 200px;
 }
 
 .button.disabled {
