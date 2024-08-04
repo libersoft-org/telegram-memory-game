@@ -118,15 +118,11 @@ class API {
  }
 
  async getUserBySession(session) {
-  const res = await this.data.getUserBySession(session);
-  console.log(res);
-  return res;
+  return await this.data.getUserBySession(session);
  }
 
  async checkSession(session) {
-  const res = await this.data.checkSession(session);
-  console.log(res);
-  return res;
+  return await this.data.checkSession(session);
  }
 }
 

@@ -144,19 +144,21 @@ async function checkErrors(res) {
   return true;
  }
  if (res.error !== 0) {
+  let state = false;
   switch (res.error) {
-   case 900:
-    await login(Telegram.WebApp.initData);
-    alert('Your session has expired. Please refresh this page.');
-    return false;
    case 901:
     await login(Telegram.WebApp.initData);
-    alert('Unknown account. Please refresh this page.');
-    return false;
+    state = false;
+    break;
+   case 902:
+    await login(Telegram.WebApp.initData);
+    state = false;
+    break;
    default:
-    alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
-    return true;
+    state = true;
   }
+  alert('Error from server: ' + (res.message ? res.message : 'Unknown'));
+  return state;
  }
  return false;
 }
