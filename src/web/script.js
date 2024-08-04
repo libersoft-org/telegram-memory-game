@@ -5,15 +5,17 @@ let canPlay = true;
 document.addEventListener('DOMContentLoaded', async function () {
  Telegram.WebApp.ready();
  window.Telegram.WebApp.expand();
- if (!localStorage.getItem('session')) await login(Telegram.WebApp.initData);
- await getMainPage();
+ let logged = false;
+ if (!localStorage.getItem('session')) logged = await login(Telegram.WebApp.initData);
+ if (localStorage.getItem('session') || logged) await getMainPage();
 });
 
 async function login(data) {
  const res = await f.getAPI('login', { data: data });
- if (await checkErrors(res)) return;
+ if (await checkErrors(res)) return false;
  localStorage.setItem('data', JSON.stringify(res.data.telegram));
  localStorage.setItem('session', res.data.session);
+ return true;
 }
 
 async function getMainPage() {
