@@ -2,8 +2,7 @@
  "dependencies": {
   "crypto": "*",
   "elysia": "*",
-  "g": "^2.0.1",
   "node-telegram-bot-api": "*",
-  "prettier": "^3.3.3"
+  "prettier": "*"
  }
 }
