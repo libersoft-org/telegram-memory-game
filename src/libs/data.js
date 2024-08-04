@@ -58,6 +58,11 @@ class Data {
   return res;
  }
 
+ async getHighScore() {
+  const res = await this.db.read('SELECT tg_firstname, tg_lastname, score FROM users ORDER BY score DESC');
+  return res;
+ }
+
  async setResult(id, amount) {
   await this.db.write('INSERT INTO users_results (id_users, amount) VALUES (?, ?)', [id, amount]);
  }
